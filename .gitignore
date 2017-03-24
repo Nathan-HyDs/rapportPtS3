@@ -5,3 +5,8 @@
 *.pdf
 *.gz
 *.toc
+*.svg
+svg
+*.cls
+*.lof
+*.lot
