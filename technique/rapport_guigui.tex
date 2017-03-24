@@ -78,4 +78,122 @@ Et le serveur son socket serveur TCP et UDP.
       \end{center}
     \end{figure}
     
+    La classe \textit{BDD\_mysql} (Voir la \textit{figure~\ref{Classe BDD_mysql}}) permet d’accéder simplement à la base de donnée du serveur. La classe utilise le package \textit{mysql\_connector} pour accéder à la base de donnée et exécuter les recettes SQL. La classe possède des fonctions permettant de savoir si un utilisateur est correctement identifié, ou encore la récupération du deck d’un joueur sous forme objet.
+
+
+
+
+\section{Organisation et fonctionnement des communications}
+
+\subsection{Organisation des communications}
+Dans cette partie sera présenté le fonctionnement et l’organisation des communications du module de gestion du réseau.
+
+\subsubsection{Organisation physique des communications}
+
+L’organisation physique des communications est représenté sur le schéma en \textit{figure~\ref{schémaCom}} avec sa légende en \textit{figure~\ref{leSchémaCom}}
+  
+  \begin{figure}[th]
+      \begin{center}
+        \includegraphics[scale=0.4]{Assets/s_r_1.png}
+        \caption{Schéma montrant les communications physique}
+        \label{schémaCom}
+      \end{center}
+    \end{figure}
+
+   \begin{figure}[th]
+      \begin{center}
+        \includegraphics[scale=0.4]{Assets/l_r_1.png}
+        \caption{Légende du schéma montrant les communications physique}
+        \label{leSchémaCom}
+      \end{center}
+    \end{figure}
+    
+  
+  Une fois que les groupes sont configurés est créé le serveur établi les communications entre les différents membres d’un groupe, il a le rôle de relai. Ce fonctionnement par relai permet de communiquer dans des zones avec des par-feus très restrictifs.
+Le serveur est capable de gérer plusieurs groupes en même temps et de différente taille entre 2 et 4 membres. Mais deux clients appartenant chacun à un groupe différant ne peuvent pas communiquer entre eux.
+
+\subsubsection{Organisation logicielle des communications}
+
+  Un client communique simultanément avec tous les autres clients, ils ne peuvent pas parler un à un. Ceci pour facilité simplement la synchronisation des données du modèle du jeu, et la gestion des avaries lors de déconnexion éventuel. De cette façon le client n’a pas besoin de savoir qui est encore connecté pour envoyer les données. (la synchronisation et les avarie seront expliqué plus tard).
+  
+\subsection{Fonctionnement des communications}
+
+\subsubsection{Classes de communication}
+Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des objets :
+
+\begin{table}
+  \label{tab1comClasses}
+    \begin{center}
+      \begin{tabular}{|c|c|c|}
+         \hline \textbf{Action}&\textbf{Classe du serveur}&\textbf{Classe du client} \\
+         \hline Attendre de recevoir&\textit{ListenClient\_Wait}&- \\
+         \hline Attendre d’envoyer&\textit{SendClient\_Wait}&- \\
+         \hline Recevoir&\textit{ListenClient}&\textit{ListenTransmitter} \\
+         \hline Envoyer&\textit{SendClient}&\textit{SendTransmitter}\\
+         \hline
+      \end{tabular}
+      \caption{Tableau récapitulant les classes pour les transmissions objet}
+    \end{center}
+  \end{table}
+  
+  Les classes pour attendre de recevoir ou d’envoyer des données sont les classes mères des classes pour envoyer ou recevoir des données. La différence avec les classes filles est qu’elle implémente \textit{Runnable} pour pouvoir être threader.
+
+\subsubsection{Procédure de communication communication entre membre d’un groupe}
+Cette procédure permet à un client de communiquer avec les autres membres de son groupe.
+\begin{description}
+  \item[1) Envoie des données du client vers le serveur]
+    \textit{\\Classe : Transmitter - Fonction : speakTransmitters()\\}
+	  Pour envoyer un objet quelconque il suffit d’appeler cette méthode et de passer en paramètre l’objet à envoyer à destination du serveur pour une retransmission. Cette méthode est synchronized pour être certain que l’on ne puisse pas envoyer des données dans le désordre au avoir des conflits avec d’autre méthode de communication. Les données à envoyer sont encapsulés dans une classe TransmitterData.
+	
+	\item[2) Réception des données des clients]
+	\textit{\\Classe : ListenClient - Fonction : run()\\}
+	  Le serveur attend des objets sur le flux objet de chaque client, soit un thread d ‘écoute par client.
+Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de données avant de la retransmettre. Si un nombre trop important d’erreur venait à se produire, la méthode fermerait le socket du client en question.
+
+  \item[3) Retransmission des données du serveur vers les clients]
+  \textit{\\Classe : Group - Fonction : clientSpeakGroup()\\}
+    Une fois la réception d’un objet  \textit{TransmitterData} le serveur retransmet les données aux autres membres du groupe. Cette méthode est elle aussi  \textit{synchronized} pour les mêmes raisons que la méthode possédante. Pour réaliser son traitement la méthode à besoin de l’objet à transmettre et le client émetteur pour ne pas lui retourner les données.
+    
+  \item[4) Réception des données du serveur]
+  \textit{\\Classe : ListenTransmitter - Fonction : run()\\}
+    Le client attend des objets dans cette fonction. Si un objets est reçu il est envoyé dans la classe \textit{Transmitter} par la méthode \textit{readObject()} pour être traité. Si des erreurs sont constatés le socket est fermé.
+\end{description}
+
+\subsubsection{Procédure de communication direct avec le serveur}
+  Cette procédure permet à un client de réaliser des actions enregistrées dans le serveur par le développer.
+
+\begin{description}
+  \item[1) Classe : Transmitter - Fonction : speakServer()]
+    \textit{\\Classe : Transmitter - Fonction : speakTransmitters()\\}
+	  Cette méthode à pour bute de transmettre au serveur le signal (un Integer) au serveur. Pour cela la méthode encapsule le signal dans l’objet ServerMessage. L’objet est transmit par les flux objets du Transmitter dans un thread.
+	
+	\item[2) Réception du signal par le serveur]
+	\textit{\\Classe : ListenClient - Fonction : run()\\}
+	  La réception du signal ce fait ici au même endroit que la réception des données de groupe. Si l’objet reçu est une instance de  ServerMessage, alors il est transmit a la classe serveur pour être traité.
+
+  \item[3) Traitement du signal]
+  \textit{\\Classe : processingMessage - Fonction : run()\\}
+  Cette méthode exécute l’instruction correspondante au numéro de signal dans l’objet ServerMessage.
+\\Pour le moment deux signaux sont répertoriés dans le tableau \ref{tab2signal}:
+
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
+\begin{table}
+  \label{tab2signal}
+    \begin{center}
+      \begin{tabular}{|l|M{12cm}|}
+         \hline \textbf{Signal}&\textbf{Action}\tabularnewline
+         \hline 6&Ordonne la fermeture du signal si le code contenue dans la classe est correcte.\tabularnewline
+         \hline 5&Recherche les cartes du groupe dans la base de donnée avec la classe \textit{BDD\_mysql} et la méthode \textit{getDeck()}. Puis les cartes sont retournées par flux d’objet à l’émetteur du signal.\tabularnewline
+         \hline
+      \end{tabular}
+      \caption{Tableau récapitulant les type de signaux du serveur}
+    \end{center}
+  \end{table}
+    
+\end{description}
+
+  
+\subsection{Protocole de création d’un groupe}
+
+
 \end{document}
