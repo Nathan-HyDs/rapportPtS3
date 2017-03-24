@@ -23,11 +23,18 @@
 
     \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/MCD_Joueur.png}
-        \caption{UML du serveur \textit{data wars}}
-        \label{fig1}
+        \includegraphics[scale=0.5]{Assets/UML_serveur.png}
+        \caption{UML du serveur}
+        \label{UML du serveur}
       \end{center}
     \end{figure}
+    
+    Le serveur contient des clients et des groupes et les groupes contiennent eux même des clients.
+Un groupe possède en variable d’instance son hôte. 
+Un client possède les flux objets, son socket et ses coordonnées pour le transport UDP.
+Et le serveur son socket serveur TCP et UDP.
+
+
 
 \subsection{UML de gestion des clients pour le serveur}
 

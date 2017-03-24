@@ -8,15 +8,14 @@
 
 \title{Data wars }
 
-\author{Guillaume LAROYENNE, Nathan PRETOT \\ Jeremy Renaud, Tom SALVI, Pierre VALENZA}
+\author{Guillaume LAROYENNE, Nathan PRETOT \\ Jeremy RENAUD, Tom SALVI, Pierre VALENZA}
 
 \begin{document}
 
 \maketitle
 \tableofcontents
 
-\begin{abstract}
-\end{abstract}
+
 
 \chapter{La base de donnée}
     Dans cette partie nous allons détailler la base de données utilisée par \textit{Data wars}. Nous allons diviser le MCD (\textit{figure~\ref{fig1}}) en plusieurs sous-parties que nous allons détailler par la suite. Nous allons donc procéder à la découpe suivante : 
@@ -85,7 +84,7 @@
     \end{figure}
     
     \section{Le bloc grille}
-        La carte du jeu, que nous appellerons ici <<grille>> ou encore \textit{<<map>>} et l'élement essentiel du bloc grille. Cette objet Java contient un tableau à deux dimensions qui représente la grille ainsi que d'autre attributs qui seront expliqués plus en détails par la suite. Cette classe contient la plupart des fonctions de traitement des entités, qui sont les élements qui composent la grille. Rentrons plus en détails dans ce bloc.
+        La carte du jeu, que nous appellerons ici <<grille>> ou encore \textit{<<map>>} et l'élement essentiel du bloc grille. Cette objet Java contient un tableau à deux dimensions qui représente la grille ainsi que d'autre attributs qui seront expliqués plus en détails par la suite. Cette classe contient la plupart des fonctions de traitement des entités, qui sont les éléments qui composent la grille. Rentrons plus en détails dans ce bloc.
     \begin{figure}[th]
       \begin{center}
         \includegraphics[scale=0.4]{Assets/umlBlocGrille.png}
@@ -97,7 +96,7 @@
           \begin{center}
            \textit{Classe : Entities, Unit, Construct, Obstacle}
           \end{center}
-          Les entités sont les élements contenus par la grille. Elle sont de type \textit{entities}, c'est-à-dire qu'elles appartiennent à cette classe. Cette classe contient les propriétés suivantes :
+          Les entités sont les éléments contenus par la grille. Elle sont de type \textit{entities}, c'est-à-dire qu'elles appartiennent à cette classe. Cette classe contient les propriétés suivantes :
           \begin{itemize}
             \item <<points de vie actuels>>
             \item <<points de vie>>
@@ -109,21 +108,35 @@
           \begin{description}
             \item[Les unités :] modélisées par la classe \textit{Unit}, elle correspond aux unités que le joueur peut poser. Elles ont des attributs supplémentaires, les <<points de mouvement>> et <<points de mouvement maximum>>, ainsi que des points d'attaque. Elles peuvent attaquer les autres unités qui perdront des points de vie et pourront potentiellement contre-attaquer.
             \item[Les obstacles :] modélisés par la classe \textit{Obstacle}, correspond aux obstacles qui sont là pour bloquer les unités.
-            \item[Les bâtiments :] modélisés par la classe \textit{Construct}, elle correspond aux QG et aux batiments de ressources. Ils ont plusieurs attributs supplémentaires tels que le \textit{spawnrange} qui détermine la zone où nous pouvons placer des unités quand le bâtiment nous appartient, l'\textit{incomeValue} qui est le nombre de ressources données par ce bâtiment par tour. Enfin la variable \textit{isQg} détermine si ce bâtiment est un QG ou non.
+            \item[Les bâtiments :] modélisés par la classe \textit{Construct}, elle correspond aux QG et aux bâtiments de ressources. Ils ont plusieurs attributs supplémentaires tels que le \textit{spawnrange} qui détermine la zone où nous pouvons placer des unités quand le bâtiment nous appartient, l'\textit{incomeValue} qui est le nombre de ressources données par ce bâtiment par tour. Enfin la variable \textit{isQg} détermine si ce bâtiment est un QG ou non.
           \end{description}
         \subsection{L'accès aux unités}
           \begin{center}
            \textit{Classe : Map}
           \end{center}
-          Pour accéder aux unités, il faut passer par l'attribut \textit{map} de la classe \textit{Map}. Pour ce repèrer, il faut comprendre le système algorithmique de gestion des coordonées (schémas ci-dessous). Or, lors de l'appel à certaines méthodes, l'utilisateur doit envoyer un tableau de coordonnées sous la forme [x,y]. Il faut donc faire attention à ne pas mélanger les deux.
+          Pour accéder aux unités, il faut passer par l'attribut \textit{map} de la classe \textit{Map}. Pour ce repèrer, il faut comprendre le système algorithmique de gestion des coordonnées (\textit{Figure~\ref{xyExemple}}). Or, lors de l'appel à certaines méthodes, l'utilisateur doit envoyer un tableau de coordonnées sous la forme [x,y]. Il faut donc faire attention à ne pas mélanger les deux.
+        
+        \begin{figure}[th]
+          \begin{center}
+            \includegraphics[scale=0.6]{Assets/xyExemple.png}
+            \caption{Exemple d'accès aux unités}
+            \label{xyExemple}
+          \end{center}
+        \end{figure}
+        
         
         \subsection{Les déplacements}
         \begin{center}
-        \textit{Classe : Map - Fonction : setUnitTreeOfMove(), move()}
+          \textit{Classe : Map - Fonction : setUnitTreeOfMove(), move()}
         \end{center}
-          La gestion du plus court chemin et des obstacles a nécessité la création d'un système d'arbre afin de calculer les différentes possibilités de déplacements et de choisir le chemin le plus optimisé. Pour créer cet arbre, nous avons créé une classe \textit{Node} qui va gérer ce traitement. En fonction d'une coordonée passée en paramètre, ainsi que d'un nombre de points de mouvement, elle peut calculer l'arbre des possibilités, où chaque noeud correspond à une position. De plus, elle va nous générer une liste contenant toutes les positions accessibles par l'unité afin de pouvoir l'afficher. Ensuite cet arbre subira un parcours en largeur afin de déterminer le plus court chemin pour aller à une position. Le déplacement permet également, si l'unité attaque au corps à corps et si la position de destination est occupée par une autre entité, de l'attaquer.%schémas d'explication des arbres + schémas parcour en largeur
+          La gestion du plus court chemin et des obstacles a nécessité la création d'un système d'arbre afin de calculer les différentes possibilités de déplacements et de choisir le chemin le plus optimisé. Pour créer cet arbre, nous avons créé une classe \textit{Node} qui va gérer ce traitement. En fonction d'une coordonée passée en paramètre, ainsi que d'un nombre de points de mouvement, elle peut calculer l'arbre des possibilités, où chaque nœud correspond à une position. De plus, elle va nous générer une liste contenant toutes les positions accessibles par l'unité afin de pouvoir l'afficher. Ensuite cet arbre subira un parcours en largeur afin de déterminer le plus court chemin pour aller à une position. Le déplacement permet également, si l'unité attaque au corps à corps et si la position de destination est occupée par une autre entité, de l'attaquer.%schémas d'explication des arbres + schémas parcour en largeur
       
         \subsection{Utilisation des nodes}
+        \begin{center}
+          \textit{Classe : Node - Fonction : calcNextLevel(), searchLowCostPath(), searcheLowCostPathForAttack(), setUpTreeOfMovement()}
+        \end{center}
+          L'utilisation de la classe \textit{Node} nécessite une certaine rigueur de part sa construction. En effet, pour fonctionner celle-ci à besoins de plusieurs variables dites \textit{<<static>>} que tout les nœuds se partagent de façon à traiter l'arbre. Il faut donc respecter une procédure stricte afin d'initialiser le premier nœud. Il faut donc appeler la méthode \textit{<<static>> setUpTreeOfMovement()} de la classe \textit{Node} qui retourne le nœud <<racine>> de l'arbre résultant des paramètres données. C'est depuis ce nœud que vous pourrez appeler les différents services de la classe.
+        
         \subsection{L'attaque}
         \begin{center}
         \textit{Classe : Map - Fonction : attack()}
@@ -187,7 +200,7 @@
             \begin{center}
             \textit{Classe : Player - Fonction : shuffle()}
             \end{center}
-              La méthode \textit{shuffle()} va remetre toute les cartes dans le <<deck>> avant de les mélanger et de reprendre cinq cartes dans la <<main>>.
+              La méthode \textit{shuffle()} va remettre toute les cartes dans le <<deck>> avant de les mélanger et de reprendre cinq cartes dans la <<main>>.
             
     \section{Le jeu}
      Nous allons maintenant parler de la classe \textit{Game}.
@@ -208,7 +221,7 @@
         \begin{center}
         \textit{Classe : Game - Fonction : initMap()}
         \end{center}
-        La création de la carte ne dépend que d'un seul élement, le nombre de joueur. Selon celui-ci, la carte sera créés suivant un modèle codé dans le programme.
+        La création de la carte ne dépend que d'un seul élément, le nombre de joueur. Selon celui-ci, la carte sera créés suivant un modèle codé dans le programme.
         
         \subsection{La gestion de la fin du tour}
         \begin{center}
@@ -225,5 +238,6 @@
           \item[RangeException : ]Déclenché par une unité qui tente d'attaquer une autre, qui n'est pas à sa portée.
           \item[SpawnExcpetion :]Déclenché par un joueur qui tente de poser une unité sur une case qui est déjà occupée ou qui n'appartient pas à celui-ci.
         \end{description}
+        
         
 \end{document}  
