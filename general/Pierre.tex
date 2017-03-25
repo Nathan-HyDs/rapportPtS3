@@ -1,0 +1,60 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[francais]{babel}
+\usepackage{graphicx}
+\usepackage{array}
+
+\title{}
+\author{}
+
+\begin{document}
+	\section{Site internet}
+
+	\paragraph{}
+       Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d'ailleur pour la vue nous avons fait le choix d'en faire un site responsif afin d'y accéder depuis n'importe quel appareil. 
+
+	\subsection{Partie administrateur} 
+	\paragraph{}
+
+    	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_admin.png}
+          \caption{Barre de navigation côté administrateur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+	 La première du site n'est accessible que par les administrateurs afin de pouvoir mettre à jour : 
+	\begin{enumerate}
+		\item les cartes
+		\item les joueurs
+		\item les effets
+	\end{enumerate}Il a donc été nécessaire d'y installer une sécurité afin que les données enregistrées soient correctes pour ainsi éviter que des conflits apparaissent. Pour cela nous utilisons un framework : Silex, qui offre donc des services pour mettre en place des contraintes qui doivent être respectées par l'utilisateur pour que les données saisies soient envoyées dans la base de données.
+
+	\newpage
+
+	\subsection{Partie joueur}
+	\paragraph{}
+
+	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_joueur.png}
+          \caption{Barre de navigation côté joueur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+      La seconde partie du site est donc accessible par les joueurs qui d'ailleurs devront créer leur compte sur le site. À partir d'ici il est nécessaire de respecter les contraintes du jeu : 
+
+	\begin{enumerate}
+		\item la taille du deck a une limite à ne pas dépasser
+		\item une carte n'est pas dans le deck ou l'est maximum une fois
+	\end{enumerate}Pour cela on empêche tout simplement l'ajout lorsque cette limite est atteinte à l'aide de requêtes SQL qui compte et compare les cartes du jeu avec celles présentes dans le deck.
+	
+	\paragraph{}
+	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du Javascript.
+
+\end{document}
+
