@@ -121,8 +121,7 @@ Le serveur est capable de gérer plusieurs groupes en même temps et de différe
 \subsubsection{Classes de communication}
 Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des objets :
 
-\begin{table}
-
+  \begin{table}
     \begin{center}
       \begin{tabular}{|c|c|c|}
          \hline \textbf{Action}&\textbf{Classe du serveur}&\textbf{Classe du client} \\
@@ -196,6 +195,86 @@ Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de 
 
   
 \subsection{Protocole de création d’un groupe}
+
+  Sur l'organigramme en figure \ref{organiGroupe} est présenté la procédure de création d’un groupe de jeu sur le serveur.
+
+  \begin{figure}[th]
+      \begin{center}
+        \includegraphics[scale=0.9]{Assets/creationGroup.png}
+        \caption{Organigramme montrant les étapes de la création d'un groupe}
+        \label{organiGroupe}
+      \end{center}
+    \end{figure}
+
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
+  
+  \begin{table}
+    \begin{center}
+      \begin{tabular}{|l|M{9cm}|M{2.5cm}|}
+      
+       \hline \textbf{Numéro}&\textbf{Action}&\textbf{Classes utilisées}\tabularnewline
+         
+        \hline 
+        1&Cette étape consiste à attendre un client, créer un socket, puis ouvrir un flux objet provisoire entrant. Si le port et l’adresse sont enregistrés dans la liste forcing alors le client est déconnecté.&\textit{WaitClients}\\\textit{Server}
+        \tabularnewline
+
+        
+        \hline 
+        2&Le serveur attend la clef d’accès envoyer par le client.
+Si la clef est incorrecte le client est déconnecté, puis son adresse et son port sont stockés dans la liste forcing pour que la personne ne puisse pas forcer la clef. Sinon les flux objet entrant et sortant sont créés ainsi que les classes \textit{Ping} et \textit{Pong}.&\textit{Server}\\\textit{Ping}/\textit{Pong}\\\textit{Client}\\\textit{BDD\_mysql}
+        \tabularnewline
+        
+        \hline
+        3&L’étape d’identification consiste à recevoir le login et le mot de passe du client.\\
+        -Si elle ne correspond pas à la base de donnée o  si la même personne est déjà connecté le socket est fermé.\\
+        -Si l’identification est correcte un message de sucés est envoyé.&\textit{Server}\\\textit{Client}\\\textit{InfoProtocol}
+        \tabularnewline
+        
+        \hline
+        4&Cette étape consiste à demander au client quelle mode de création de groupe souhaite-t-il.\\
+Si le client revoie yes, alors un groupe est créé ou il en est hôte. Sinon le client est mis en attente d’acceptation d’un groupe.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
+        \tabularnewline
+        
+        
+        \hline
+        5&Une liste de tout les clients en attente d’invitation est envoyé a l’hôte. L’hôte peut envoyer une invitation à un client en attente d’invitation en envoyant le nom de la personne concerné au serveur, puis le serveur transmet l’invitation. L’hôte peut envoyer le message de fin de configuration et si la taille du groupe est entre 2 et 4 personnes le groupe est validé.&\textit{Server}\\\textit{Client}\\\textit{InfoProtocol}
+        \tabularnewline
+        
+        \hline
+        6&Le serveur transmet toutes les invitations au client avec un délai de 12 secondes maximum pour répondre.\\ 
+Si le client renvoi l’invitation il est placé dans le groupe de l’émetteur et attend la validation du groupe.\\
+Si il la refuse il ne renvoie rien.\\
+Si le temps est dépassé le serveur n’acceptera pas une éventuelle acceptation cette invitation.&\textit{Server}\\\textit{Group}\\\textit{Client}\\\textit{Transmitter}\\\textit{InfoProtocol}
+      
+        \tabularnewline
+        
+        \hline
+        7&Lorsque l’hôte valide le groupe un message de confirmation de sa création est envoyé à tous ses membres. Ainsi qu’une liste du nom de tout ses membres.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
+        \tabularnewline
+        
+        \hline
+        8&Le serveur attend un signal contenu dans l’objet \textit{ServerMessage} émis par un des membres du groupe.&\textit{ServerMessage}\\\textit{Server}
+        \tabularnewline
+        
+        \hline
+        9&Le serveur attend des donnés contenus dans l’objet \textit{TransmitterData}.&\textit{TransmitterData} \\\textit{Server}
+        \tabularnewline
+        
+        \hline
+        10&Suivant ce signal le serveur exécute une procédure bien précise.\\\textit{Exemple : le signal 5 correspond a l’envoi des cartes du jeu.}\\&\textit{Server}\\\textit{Client}
+        \tabularnewline
+        
+        \hline
+        11&Le serveur retransmet les données aux membres du groupe.&\textit{Group}
+        \tabularnewline
+        
+        \hline
+      
+      \end{tabular}
+      \caption{Tableau expliquant les étapes de l'organigramme \textit{(figure~\ref{organiGroupe})}}  
+      \label{tabOrganigramme}
+    \end{center}
+  \end{table}
 
 
 \end{document}
