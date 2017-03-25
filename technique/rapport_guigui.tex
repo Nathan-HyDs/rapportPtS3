@@ -122,7 +122,7 @@ Le serveur est capable de gérer plusieurs groupes en même temps et de différe
 Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des objets :
 
 \begin{table}
-  \label{tab1comClasses}
+
     \begin{center}
       \begin{tabular}{|c|c|c|}
          \hline \textbf{Action}&\textbf{Classe du serveur}&\textbf{Classe du client} \\
@@ -132,7 +132,8 @@ Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des obj
          \hline Envoyer&\textit{SendClient}&\textit{SendTransmitter}\\
          \hline
       \end{tabular}
-      \caption{Tableau récapitulant les classes pour les transmissions objet}
+      \caption{Tableau récapitulant les classes pour les transmissions objet}  
+      \label{tab1comClasses}
     \end{center}
   \end{table}
   
@@ -178,7 +179,7 @@ Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de 
 
 \newcolumntype{M}[1]{>{\raggedright}m{#1}}
 \begin{table}
-  \label{tab2signal}
+
     \begin{center}
       \begin{tabular}{|l|M{12cm}|}
          \hline \textbf{Signal}&\textbf{Action}\tabularnewline
@@ -186,7 +187,8 @@ Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de 
          \hline 5&Recherche les cartes du groupe dans la base de donnée avec la classe \textit{BDD\_mysql} et la méthode \textit{getDeck()}. Puis les cartes sont retournées par flux d’objet à l’émetteur du signal.\tabularnewline
          \hline
       \end{tabular}
-      \caption{Tableau récapitulant les type de signaux du serveur}
+      \caption{Tableau récapitulant les type de signaux du serveur}  
+      \label{tab2signal}
     \end{center}
   \end{table}
     
