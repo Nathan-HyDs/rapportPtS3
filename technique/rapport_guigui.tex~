@@ -20,31 +20,25 @@
 \chapter{Partie réseau}
 
 \section{Modélisation des classes de réseau}
-
+Dans Cette partie les classes principales du client et du serveur seront présenté, ainsi que l'organisation entre elles.
 \subsection{UML de gestion des clients pour le serveur}
 
     \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/UML_serveur.png}
+        \includegraphics[scale=0.3]{Assets/UML_serveur.png}
         \caption{UML du serveur}
         \label{UML du serveur}
       \end{center}
     \end{figure}
     
     
-    Comme illustré sur le diagramme ULM (\textit{figure~\ref{UML du serveur}}) le serveur contient des clients et des groupes et les groupes contiennent eux même des clients.
-Un groupe possède en variable d’instance son hôte. 
-Un client possède les flux objets, son socket et ses coordonnées pour le transport UDP.
-Et le serveur son socket serveur TCP et UDP.
-
-
-
+    Comme illustré sur le diagramme ULM (\textit{figure~\ref{UML du serveur}}) le serveur contient des clients et des groupes. Les groupes contiennent eux même des clients. Un groupe possède en variable d’instance son hôte. Un client possède les flux objets, son socket et ses coordonnées pour le transport UDP. Le serveur lui possède son socket serveur TCP et UDP.
 
 
 \subsection{UML de gestion des données pour les clients}
  \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/UML_client.png}
+        \includegraphics[scale=0.3]{Assets/UML_client.png}
         \caption{UML du client}
         \label{UML du client}
       \end{center}
@@ -56,6 +50,8 @@ Et le serveur son socket serveur TCP et UDP.
 
 \section{Les classes annexes}
 
+Cette partie présente les classes "accessoire" du serveur.
+
 \subsection{Visualisation de la situation du serveur}
 
     \begin{figure}[th]
@@ -66,7 +62,7 @@ Et le serveur son socket serveur TCP et UDP.
       \end{center}
     \end{figure}
     
-    La classe \textit{ViewNetwork} (voir la \textit{figure~\ref{Classe ViewNetwork}}) permet une visualisation en temps réel de la situation du serveur. Elle montre dans une fenêtre un graphe avec pour nœud les clients et leur groupe pour liaisons. Le graphe est créé avec la librairie \textit{GraphSteam}. Lors de la création de la classe un thread est lancé pour réactualiser le graphe sur l’état du serveur. La fréquence réactualisation est de 500 millisecondes.
+    La classe \textit{ViewNetwork} (voir la \textit{figure~\ref{Classe ViewNetwork}}) permet une visualisation en temps réel de la situation du serveur. Elle montre dans une fenêtre un graphe avec pour nœud les clients et leur groupe pour liaisons. Le graphe est créé avec la librairie \textit{GraphSteam}. Lors de la création de la classe un thread est lancé pour réactualiser le graphe sur l’état du serveur. La fréquence de réactualisation est de 500 millisecondes.
 
 \subsection{Communication avec la base de donnée}
 
@@ -109,17 +105,19 @@ L’organisation physique des communications est représenté sur le schéma en 
     \end{figure}
     
   
-  Une fois que les groupes sont configurés est créé le serveur établi les communications entre les différents membres d’un groupe, il a le rôle de relai. Ce fonctionnement par relai permet de communiquer dans des zones avec des par-feus très restrictifs.
-Le serveur est capable de gérer plusieurs groupes en même temps et de différente taille entre 2 et 4 membres. Mais deux clients appartenant chacun à un groupe différant ne peuvent pas communiquer entre eux.
+  Une fois que les groupes sont configurés et créé, le serveur établit les communications entre les différents membres d’un groupe. Le serveur a donc un rôle de relai.
+Ce fonctionnement par relai permet de communiquer dans des zones avec des par-feus très restrictifs.
+Le serveur est capable de gérer plusieurs groupes en même temps et de différente taille entre 2 et 4 membres. Deux clients appartenant chacun à un groupe différant ne peuvent pas communiquer entre eux.
 
 \subsubsection{Organisation logicielle des communications}
 
-  Un client communique simultanément avec tous les autres clients, ils ne peuvent pas parler un à un. Ceci pour facilité simplement la synchronisation des données du modèle du jeu, et la gestion des avaries lors de déconnexion éventuel. De cette façon le client n’a pas besoin de savoir qui est encore connecté pour envoyer les données. (la synchronisation et les avarie seront expliqué plus tard).
+  Un client communique simultanément avec tous les autres clients, ils ne peuvent pas parler un à un. 
+Ceci pour faciliter simplement la synchronisation des données du modèle du jeu, et la gestion des avaries lors de déconnexion éventuel. De cette façon le client n’a pas besoin de savoir qui est encore connecté pour envoyer les données. (la synchronisation et les avarie seront expliqué plus tard).
   
 \subsection{Fonctionnement des communications}
 
 \subsubsection{Classes de communication}
-Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des objets :
+Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des objets.
 
   \begin{table}
     \begin{center}
@@ -136,23 +134,23 @@ Le tableau \ref{tab1comClasses} récapitule les classes pour transmettre des obj
     \end{center}
   \end{table}
   
-  Les classes pour attendre de recevoir ou d’envoyer des données sont les classes mères des classes pour envoyer ou recevoir des données. La différence avec les classes filles est qu’elle implémente \textit{Runnable} pour pouvoir être threader.
+  Les classes pour attendre de recevoir ou d’envoyer des données sont les classes mères des classes pour envoyer ou recevoir des données. La différence avec les classes filles est qu’elles implémentes \textit{Runnable} pour pouvoir être threader.
 
 \subsubsection{Procédure de communication communication entre membre d’un groupe}
 Cette procédure permet à un client de communiquer avec les autres membres de son groupe.
 \begin{description}
   \item[1) Envoie des données du client vers le serveur]
     \textit{\\Classe : Transmitter - Fonction : speakTransmitters()\\}
-	  Pour envoyer un objet quelconque il suffit d’appeler cette méthode et de passer en paramètre l’objet à envoyer à destination du serveur pour une retransmission. Cette méthode est \textit{synchronized} pour être certain que l’on ne puisse pas envoyer des données dans le désordre au avoir des conflits avec d’autre méthode de communication. Les données à envoyer sont encapsulés dans une classe \textit{TransmitterData}.
+	  Pour envoyer un objet quelconque il suffit d’appeler cette méthode et de passer en paramètre l’objet à envoyer à destination du serveur pour une retransmission. Cette méthode est \textit{synchronized} pour être certain que l’on ne puisse pas envoyer des données dans le désordre ou avoir des conflits avec d’autre méthode de communication. Les données à envoyer sont encapsulés dans une classe \textit{TransmitterData}.
 	
 	\item[2) Réception des données des clients]
 	\textit{\\Classe : ListenClient - Fonction : run()\\}
-	  Le serveur attend des objets sur le flux objet de chaque client, soit un thread d ‘écoute par client.
-Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de données avant de la retransmettre. Si un nombre trop important d’erreur venait à se produire, la méthode fermerait le socket du client en question.
+	  Le serveur attend des objets sur le flux objet de chaque client avec un thread d'écoute pour chacun.
+Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de donnée avant de la retransmettre. Si un nombre trop important d’erreur venait à se produire, la méthode fermerait le socket du client en question.
 
   \item[3) Retransmission des données du serveur vers les clients]
   \textit{\\Classe : Group - Fonction : clientSpeakGroup()\\}
-    Une fois la réception d’un objet  \textit{TransmitterData} le serveur retransmet les données aux autres membres du groupe. Cette méthode est elle aussi  \textit{synchronized} pour les mêmes raisons que la méthode possédante. Pour réaliser son traitement la méthode à besoin de l’objet à transmettre et le client émetteur pour ne pas lui retourner les données.
+    Une fois la réception d’un objet  \textit{TransmitterData} le serveur retransmet les données aux autres membres du groupe. Cette méthode est elle aussi  \textit{synchronized} pour les mêmes raisons que la méthode précédente. Pour réaliser son traitement la méthode à besoin de l’objet à transmettre et du client émetteur pour ne pas lui retourner les données.
     
   \item[4) Réception des données du serveur]
   \textit{\\Classe : ListenTransmitter - Fonction : run()\\}
@@ -160,16 +158,16 @@ Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de 
 \end{description}
 
 \subsubsection{Procédure de communication direct avec le serveur}
-  Cette procédure permet à un client de réaliser des actions enregistrées dans le serveur par le développer.
+  Cette procédure permet à un client de réaliser des actions enregistrées dans le serveur par le développeur.
 
 \begin{description}
-  \item[1) Classe : Transmitter - Fonction : speakServer()]
+  \item[1) Envoi du signal au serveur]
     \textit{\\Classe : Transmitter - Fonction : speakTransmitters()\\}
 	  Cette méthode à pour bute de transmettre au serveur le signal (un \textit{Integer}) au serveur. Pour cela la méthode encapsule le signal dans l’objet \textit{ServerMessage}. L’objet est transmit par les flux objets du \textit{Transmitter} dans un thread.
 	
 	\item[2) Réception du signal par le serveur]
 	\textit{\\Classe : ListenClient - Fonction : run()\\}
-	  La réception du signal ce fait ici au même endroit que la réception des données de groupe. Si l’objet reçu est une instance de  \textit{ServerMessage}, alors il est transmit a la classe serveur pour être traité.
+	  La réception du signal ce fait ici au même endroit que la réception des données de groupe. Si l’objet reçu est une instance de  \textit{ServerMessage}, alors il est transmit à la classe serveur pour être traité.
 
   \item[3) Traitement du signal]
   \textit{\\Classe : processingMessage - Fonction : run()\\}
@@ -182,7 +180,7 @@ Dans cette méthode lorsqu’un objet est reçu, le serveur vérifie le type de 
       \begin{tabular}{|l|M{12cm}|}
          \hline \textbf{Signal}&\textbf{Action}\tabularnewline
          \hline 6&Ordonne la fermeture du signal si le code contenue dans la classe est correcte.\tabularnewline
-         \hline 5&Recherche les cartes du groupe dans la base de donnée avec la classe \textit{BDD\_mysql} et la méthode \textit{getDeck()}. Puis les cartes sont retournées par flux d’objet à l’émetteur du signal.\tabularnewline
+         \hline 5&Recherche les cartes du groupe dans la base de donnée avec la classe \textit{BDD\_mysql} et la méthode \textit{getDeck()}. Puis les cartes sont retournées par les flux objet à l’émetteur du signal.\tabularnewline
          \hline
       \end{tabular}
       \caption{Tableau récapitulant les type de signaux du serveur}  
@@ -224,13 +222,13 @@ Si la clef est incorrecte le client est déconnecté, puis son adresse et son po
         
         \hline
         3&L’étape d’identification consiste à recevoir le login et le mot de passe du client.\\
-        -Si elle ne correspond pas à la base de donnée o  si la même personne est déjà connecté le socket est fermé.\\
+        -Si elle ne correspond pas à la base de donnée ou si la même personne est déjà connecté le socket est fermé.\\
         -Si l’identification est correcte un message de sucés est envoyé.&\textit{Server}\\\textit{Client}\\\textit{InfoProtocol}
         \tabularnewline
         
         \hline
         4&Cette étape consiste à demander au client quelle mode de création de groupe souhaite-t-il.\\
-Si le client revoie yes, alors un groupe est créé ou il en est hôte. Sinon le client est mis en attente d’acceptation d’un groupe.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
+Si le client revoit yes, alors un groupe est créé ou il en est hôte. Sinon le client est mis en attente d’acceptation d’un groupe.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
         \tabularnewline
         
         
@@ -239,15 +237,15 @@ Si le client revoie yes, alors un groupe est créé ou il en est hôte. Sinon le
         \tabularnewline
         
         \hline
-        6&Le serveur transmet toutes les invitations au client avec un délai de 12 secondes maximum pour répondre.\\ 
-Si le client renvoi l’invitation il est placé dans le groupe de l’émetteur et attend la validation du groupe.\\
-Si il la refuse il ne renvoie rien.\\
+        6&Le serveur transmet toutes les invitations au client avec un délai de 12 secondes maximum pour répondre.
+Si le client renvoi l’invitation il est placé dans le groupe de l’émetteur et attend la validation du groupe.
+Si il la refuse il ne renvoie rien.
 Si le temps est dépassé le serveur n’acceptera pas une éventuelle acceptation cette invitation.&\textit{Server}\\\textit{Group}\\\textit{Client}\\\textit{Transmitter}\\\textit{InfoProtocol}
       
         \tabularnewline
         
         \hline
-        7&Lorsque l’hôte valide le groupe un message de confirmation de sa création est envoyé à tous ses membres. Ainsi qu’une liste du nom de tout ses membres.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
+        7&Lorsque l’hôte valide le groupe, un message de confirmation de sa création est envoyé à tous ses membres. Ainsi qu’une liste de nom de tout ses membres.&\textit{Server}\\\textit{Group}\\\textit{InfoProtocol}
         \tabularnewline
         
         \hline
@@ -259,7 +257,7 @@ Si le temps est dépassé le serveur n’acceptera pas une éventuelle acceptati
         \tabularnewline
         
         \hline
-        10&Suivant ce signal le serveur exécute une procédure bien précise.\\\textit{Exemple : le signal 5 correspond a l’envoi des cartes du jeu.}\\&\textit{Server}\\\textit{Client}
+        10&Suivant ce signal le serveur exécute une procédure bien précise.&\textit{Server}\\\textit{Client}
         \tabularnewline
         
         \hline
@@ -277,9 +275,9 @@ Si le temps est dépassé le serveur n’acceptera pas une éventuelle acceptati
 
 \section{Principe et fonctionnement de la synchronisation par le réseau}
 
-  Le principe de la synchronisation par réseau est simple. Le but est de synchroniser les modelés, de chaque joueur. De cette manière le module de réseau est indépendant du jeu. La synchronisation fonctionne parfaitement pour tous les jeux tour par tour. Ce principe de fonctionnement est très simple mais, son défaut est que le modèle du jeu doit être léger et \textit{serializable}.
-
-Le schéma en figure \ref{syncros} avec sa légende en \ref{syncroslegende} illustre son fonctionnement.
+  Le principe de la synchronisation par réseau est simple. Le but est de synchroniser les modelés de chaque joueur. De cette manière le module de réseau est indépendant du jeu. La synchronisation fonctionne parfaitement pour tous les jeux tour par tour. Ce principe de fonctionnement est très simple, mais son défaut est que le modèle du jeu doit être léger et \textit{serializable}.
+\\
+Le schéma en figure \ref{syncros} avec sa légende \textit{(Figure~\ref{syncroslegende})} et ses étape \textit{(Tableau~\ref{syncros})} illustre son fonctionnement.
   \begin{figure}[th]
       \begin{center}
         \includegraphics[scale=0.4]{Assets/s_r_2.png}
@@ -320,14 +318,14 @@ Le schéma en figure \ref{syncros} avec sa légende en \ref{syncroslegende} illu
            
            \hline
         \end{tabular}
-        \caption{Tableau récapitulant les type de signaux du serveur}  
+        \caption{Étape de la figure \ref{syncros}}  
         \label{tab3Etape}
       \end{center}
     \end{table}
 
 
 \section{La gestion des erreurs et avaries}
-  Il va de soi que si un client est déconnecté subitement, s’il provoque des anomalies, ou voir même s’il souhaite détourné le programme le serveur ne doit pas arrêter de fonctionner. Dans cette partie sera présenté les différents mécanismes de réparation.
+  Il va de soi que si un client est déconnecté subitement, si il provoque des anomalies, ou voir même si il souhaite détourné le programme, le serveur ne doit pas arrêter de fonctionner. Dans cette partie sera présenté les différents mécanismes de réparation.
 
 \subsection{Gestion des déconnexions}
   Lorsqu’un client est identifié par le serveur comme déconnecté il doit être détruit, ses threads doivent être terminé et les contraintes avec un groupe éventuel doivent être géré.
@@ -342,14 +340,14 @@ Après cette première étape la suppression du client de la liste du serveur es
    
    \item[La suppression des groupes]
    \textit{\\Classe : Serveur – Fonction : deleteGroup()\\}
-   Cette méthode supprime le groupe passé en paramétrer du serveur, pour cella le mutex de la liste contenant les groupes et verrouiller pour la suppression. Mais avant cette étape, la méthode terminate() du groupe en question est appelé pour être certain que les clients du groupe soit déconnecté. Pour cela la méthode \textit{terminate()} appelle un a un la méthode \textit{offline()} de chaque client.
+   Cette méthode supprime le groupe passé en paramétrer du serveur, pour cella le mutex de la liste contenant les groupes et verrouiller pour la suppression. Mais avant cette étape, la méthode terminate() du groupe en question est appelé pour être certain que les clients du groupe soit déconnecté. Pour cela la méthode \textit{terminate()} appelle un à un la méthode \textit{offline()} de chaque client.
 \end{description}
 
 \subsubsection{Les procédures de nettoyage}
 \begin{description}
   \item[Déconnexion d’un client]
   \textit{\\Classe : Client – Fonction : offline()\\}
-Cette méthode ferme les flux objet ainsi que le socket de sa classe. De cette façon aucune données ne peut être échangé, et les threads de communication se stopperont par eux même en identifiant sa fermeture.
+Cette méthode ferme les flux objet ainsi que le socket de sa classe. De cette façon aucune donnée ne peut être échangé, et les threads de communication se stopperont par eux même en identifiant sa fermeture.
 Puis par sécurité comme la classe client garde en mémoire tous les threads en relation avec celui-ci, la méthode \textit{stopThread()} est appelé pour s’assurer de leur fin. Afin d’être certain que aucun processus léger ne tourne inutilement en cas d’erreur.
   
   \item[Détection d’un client déconnecté]
@@ -359,18 +357,18 @@ Puis par sécurité comme la classe client garde en mémoire tous les threads en
   \item[Détection d’un groupe invalide]
   \textit{\\Classe : Serveur – Fonction : clean()\\}
   La méthode parcoure tous les éléments de la liste de groupes, si un groupe est détecté comme invalide alors elle appelle la méthode \textit{deleteGroup()} pour le supprimer.
-Un groupe est considéré comme invalide si tous ces points ne sont pas respectés :\\
+Un groupe est considéré comme invalide si ces points ne sont pas respectés :\\
 -Il doit avoir au moins 2 membres si il est configuré.\\
 -L’hôte doit être pressent dans le groupe si sa création n’est pas achevée.
 
   \item[Activation du nettoyage]
   \textit{\\Classe : ThreadCleaner – Fonction : run()\\}
-  Le nettoyage des clients déconnectés et des groupes invalides est réalisé par la méthode clean(). Mais pour que le nettoyage soit réalisé encore faut-il que la méthode soit appelée, c’est le rôle de cette classe. Cette classe crée un thread qui est créé en appelant la méthode \textit{startCleanner()} dans la classe Serveur. Ce thread a pour mission de rafraîchir le nettoyage à une fréquence de 500 millisecondes.
+  Le nettoyage des clients déconnectés et des groupes invalides est réalisé par la méthode clean(). Mais pour que le nettoyage soit réalisé encore faut-il que la méthode soit appelée. C’est le rôle de cette classe. Cette classe crée un thread qui est créé en appelant la méthode \textit{startCleanner()} dans la classe Serveur. Ce thread a pour mission de rafraîchir le nettoyage à une fréquence de 500 millisecondes.
   
   \end{description}
   
   \subsection{Détection des déconnexions}
-    Un client est déconnecté aux yeux du programme si le socket est fermé, le problème est que le socket ne se ferme pas automatiquement si le client se déconnecte physiquement (fermeture du programme, ligne coupé…). Il faut donc réaliser cette fermeture manuellement. Pour cella deux méthodes sont utilisées.
+    Un client est déconnecté aux yeux du programme si le socket est fermé. Mais le problème est que le socket ne se ferme pas automatiquement si le client se déconnecte physiquement (fermeture du programme, ligne coupé…). Il faut donc réaliser cette fermeture manuellement. Pour cella deux méthodes sont utilisées.
     
   \subsubsection{Détection dans les classes de communication}
     \begin{center}
@@ -382,7 +380,7 @@ Un groupe est considéré comme invalide si tous ces points ne sont pas respect�
     \begin{center}
     \textit{Classe : Ping, ThreadGrimReaper, Pong, Serveur}
     \end{center}
-      Les déconnexions ne génèrent pas toujours une \textit{IOExeptions} en java. Par exemple dans le cas où un câble de communication serait débranché. Pour être certain que le serveur est toujours en communication avec le serveur un protocole UDP a été mis en place. Le fonctionnement du test de communication est simple il est le même que le jeu du ping-pong. Si la balle ne revient plus alors la connexion est brisé.
+      Les déconnexions ne génèrent pas toujours une \textit{IOExeptions} en java. Par exemple dans le cas où un câble de communication serait débranché. Pour être certain que le serveur est toujours en communication avec ses clients et inversement un protocole UDP a été mis en place. Le fonctionnement du test de communication est simple, il est le même que le jeu du ping-pong. Si la balle ne revient plus alors la connexion est brisé.
 \\
 \\
 \textbf{Principe de fonctionnement du ping-pong :}
@@ -409,10 +407,10 @@ Le schéma illustrant son fonctionnement est en figure \ref{pingpongschema} avec
   \item[Chez le serveur : ]
   Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Server}, un thread de \textit{Ping} est créé ainsi que un thread \textit{ThreadGrimReaper}, pour chaque nouveau client. 
 \textit{ThreadGrimReaper}, diminue les points de vie de 1 toutes les secondes. Si il tombe à zéro la méthode \textit{offline()} du client est appelé.
-\textit{Ping} attente la réception de packages UDP sur le même port que le TCP. Lorsque un paquet est reçu \textit{Ping} récupère le code d’identification du \textit{Transmitter} dans le paquet. Puis il revoit un message «pong» à l’expéditeur, et régénéré les point de vie du client.
+\textit{Ping} attend la réception de packages UDP sur le même port que le TCP. Lorsque un paquet est reçu \textit{Ping} récupère le code d’identification du \textit{Transmitter} dans le paquet. Puis il revoit un message «pong» à l’expéditeur, et régénéré les point de vie du client.
   
   \item[Chez le client : ]
-  Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Transmitter}, un thread \textit{Pong} est créé. \textit{Pong} envoi un message UDP au serveur avec à l’intérieur son identifiant que le serveur lui a transmit lors de sa connexion. \textit{Pong} revoie en permanence un message lorsqu’il reçoit «ping». Si il ne reçoit plus de message le \textit{time} out appel la méthode \textit{offline()} du \textit{Transmitter}.
+  Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Transmitter}, un thread \textit{Pong} est créé. \textit{Pong} envoi un message UDP au serveur avec à l’intérieur son identifiant que le serveur lui a transmit lors de sa connexion. \textit{Pong} revoie en permanence un message lorsqu’il reçoit «ping». Si il ne reçoit plus de message le \textit{time out} appel la méthode \textit{offline()} du \textit{Transmitter}.
 \end{description}
 
 Grace à ces systèmes les sockets non fermé indique donc que les transmissions peuvent être effectué sans problème.
