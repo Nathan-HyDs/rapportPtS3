@@ -10,12 +10,12 @@
 \author{}
 
 \begin{document}
-	\section{Site internet}
+	\subsection{Site internet}
 
 	\paragraph{}
-       Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d'ailleur pour la vue nous avons fait le choix d'en faire un site responsif afin d'y accéder depuis n'importe quel appareil. 
+       Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d’ailleurs pour la vue nous avons fait le choix d'en faire un site \textit{responsif} afin d'y accéder depuis n'importe quel appareil. 
 
-	\subsection{Partie administrateur} 
+	\subsubsection{Partie administrateur} 
 	\paragraph{}
 
     	\begin{figure}[th]
@@ -35,7 +35,7 @@
 
 	\newpage
 
-	\subsection{Partie joueur}
+	\subsubsection{Partie joueur}
 	\paragraph{}
 
 	\begin{figure}[th]
@@ -54,7 +54,6 @@
 	\end{enumerate}Pour cela on empêche tout simplement l'ajout lorsque cette limite est atteinte à l'aide de requêtes SQL qui compte et compare les cartes du jeu avec celles présentes dans le deck.
 	
 	\paragraph{}
-	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du Javascript.
+	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du \textit{Javascript}.
 
 \end{document}
-

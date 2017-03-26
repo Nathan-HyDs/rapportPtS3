@@ -3,9 +3,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage[francais]{babel}
+\usepackage{graphicx}
+\usepackage{array}
 
 \title{Data wars}
-\author{Guillaume LARROYENNE, Nathan PRETOT, Jeremie Renaud,Tom SALVI, Pierre VALENZA}
+\author{Guillaume LAROYENNE, Nathan PRETOT,\\ Jeremy RENAUD,Tom SALVI, Pierre VALENZA}
 
 \begin{document}
 
@@ -15,6 +17,114 @@
 \begin{abstract}
 \end{abstract}
 
-\chapter{}
+\chapter{Mise en œuvre}
+
+
+  \section{Organisation du projet}
+     \begin{description}
+       \item[Logiciel de gestion de versions :] nous avons utilisé \textit{git} et la plateforme \textit{GitHub} pour gérer le partage des fichiers et la gestion des versions. Nous avons utilisé ceci car, l'ayant appris en cours, tout les membres du projet étaient capable de l'utiliser.
+       \item[Communication :] pour la communication d'information importante et d'information durable, l'utilisation de mail ou encore de système de discussion instantanée tel que \textit{messenger}. En plus de tout ceci, l'utilisation du logiciel de discussion \textit{Discord} nous a permit de parler du projet de vive voix.
+       \item[Répartition des tâches :] pour la répartition des tâches et l'organisation du projet, nous nous sommes servis du site \textit{Trello}. Son interface simple, mais efficace, nous a permit de suivre l'avancé du projet.
+     \end{description}
+  
+  \section{Jeu}
+    \begin{description}
+      \item[Langage de programmation :] \textit{Java} fut choisit pour plusieurs raisons, notamment, étant le langage le plus utilisés lors de notre formation, tout les membres de notre groupe avait un niveau équivalent sur celui-ci. De plus, la création d'une interface graphique en \textit{Java}, ayant été vue en cours, était donc connu par notre groupe.   
+      \item[Base de données :] nous avons décidé d'utiliser \textit{MySQL}. Nous avons fait ce choix pour la simplicité d’intégration avec \textit{java} via la bibliothèque \textit{mysql-connector}.
+      
+    \end{description}
+  
+  \section{Interface}
+    \subsection{Le Paradigme MVC}
+      Nous avons structuré notre projet avec le paradigme MVC ( Modèle, Vue, Contrôleur), car ce format s'adapte parfaitement au jeu en tour par tour. En effet, il permet de juste envoyer la partie modèle avec le réseau sans toucher ni aux contrôleurs ni à la vue.   
+    \subsection{La bibliothèque graphique Java Swing}
+      Nous avons décidé d'utiliser la bibliothèque graphique Java Swing car nous l'avions déjà utiliser sur plusieurs projets et que c'est la technologie que nous maîtrisions le plus.
+    \subsection{Logiciels}
+      Voici les différents logiciels utilisés pour réaliser les graphismes.
+    \subsubsection{Gimp}
+      Nous avons utilisé ce logiciel pour la modification des images de la vue. Nous avons choisi ce logiciel car c'est un logiciel gratuit et que l'on maîtrisait déjà un peu. 
+    \subsubsection{Inkscape}
+      Nous avons utilisé ce logiciel pour la création des images de la vue. Nous avons choisi \textit{inkscape} car c'est un logiciel libre qui permet de faire du dessin vectoriel, et donc de pouvoir facilement redimensionner les images. 
+
+
+
+
+	
+
+  \section{Répartition du travail}
+    Ce projet mettant en œuvre une grande diversité de domaine (site web, jeu, serveur, base de données, graphisme), nous n'avons donc pas eu d'autres choix que de répartir notre effectif sur les différents domaines. Laissant ainsi presque tout les domaines (à part modèle) couvert par une seule personne, nous laissant la disposition suivante :
+    \begin{description}
+      \item[Jeremy : ] implémentation des interfaces et des contrôleurs.
+      \item[Tom : ] travail sur une partie du modèle du jeu.
+      \item[Guillaume :] modélisation et création du serveur et des communications réseaux.
+      \item[Pierre :] création du site web.
+      \item[Nathan :] modélisation et création de la base de données. Modélisation du jeu et réalisation d'une partie de celui-ci.
+    \end{description}
+    
+    \begin{figure}[th]
+      \begin{center}
+        \includegraphics[scale=0.365]{Assets/UMLRepartition.png}
+        \caption{Répartition du travail}
+        \label{RepTravail}
+      \end{center}
+    \end{figure}
+    
+    De plus des éléments du domaine informatiques, notre projet nous a demandé la création entière d'un jeu, nous demandant une réflexion autours des règles et fonctionnalités de celui-ci, ainsi que de créer des cartes innovantes pour celui-ci. Cette partie à été endossée par l'ensemble de l'équipe.
+    
+  \section{Gestion du temps}
+    Le projet a débuté sur la conception du jeu. C'est-à-dire la création des règles, ainsi que les éléments de modélisation au niveau informatique ( MCD, UML, etc...).  C'est étape, qui a durée un mois et demis, fut suivit du début de la phase de programmation du réseau et du jeu. La partie interface commença un peu plus tard, car elle nécessitais d'avoir une partie du modèle de terminée pour commencer. Le site web ne commença qu'a partir de janvier car celui-ci n'était pas prévus dans le travail initiale. Une première version du jeu en mono-poste fut terminée au milieu des vacances de février, suivis de près par la version réseau.
+    \begin{figure}[th]
+      \begin{center}
+        \includegraphics[scale=0.5]{Assets/gestionTemps.png}
+        \caption{Gestion du temps par rapport à la courbe des \textit{commits} \textit{GitHub}}
+        \label{RepTime}
+      \end{center}
+    \end{figure}
+  
+
+    \section{Rendu}
+      \subsection{Les composants du projet}
+        A ce jour, le projet comporte :
+
+      \subsubsection{Un site web permettant :}
+
+         - De créer un compte utilisateur
+           
+         - De créer et modifier son deck de carte pour le jouer en jeu.
+         
+         - De télécharger le jeu.
+         
+         \begin{center}
+        \includegraphics[scale=0.2]{Assets/site.png} 
+        \end{center}
+
+
+      \subsubsection{Un système réseau avec interface réutilisable\\ sur d'autres projets :}
+
+        Il permet de créer un groupe, envoyer une invitation au membres connectés, ces derniers peuvent gérer les invitations reçus ( accepter ou non ) l'invitation est limitée dans le temps pour éviter d'attendre un joueur éternellement. Une fois le groupe créé l'hôte peut lancer la partie.   
+
+
+        \begin{center}
+        \includegraphics[scale=0.5]{Assets/connection3.png} 
+        \end{center}
+
+        \subsubsection{Un jeu jouable en Réseau de 2 à 4 joueurs.}
+
+        Dans le jeu on peut récupérer le deck en fonction du joueur, jouer des cartes, déplacer des unités, attaquer des unités ennemies, capturer des bâtiments de ressources, voir les informations des entités sur la carte. La gestion des ressources est fonctionnelle.
+
+         On peut attaquer le QG ennemi pour gagner la partie.
+
+        La partie de chaque joueur est synchronisée à chaque fin de tour d'un joueur.
+        \begin{center}
+        \includegraphics[scale=0.3]{Assets/UniteeSelectMove.png} 
+        \end{center}
+
+  
+  \chapter{Bilan}
+    \section{Bilan pédagogique}
+      Ce projet nous a permit de renforcer nos acquis dans des langages tels que \textit{Java}, \textit{MySQL} ou encore \textit{PHP} avec le \textit{framework} <<silex>>. Mais ce projet nous également permit d'acquérir de nouvelle connaissance, notamment comment lié \textit{Mysql} a \textit{Java}, ou encore la communication réseaux en \textit{Java}. Ce projet, et quelques mésaventures avec des modifications de code altérant le bon fonctionnement du programme, nous a appris que la pratique du test logiciel était importante pour la programmation d'un jeu.
+      
+    \section{Bilan technique}
+       Nous avons à l'heure actuelle un programme fonctionnel malgré quelques failles notamment dû à un manque de rigueur dans la gestion des contrôleurs, mais également de quelques problèmes avec les effets. Certains de ceux-ci ne s'appliquent pas. Si notre programme reste viable dans le fond, la forme reste encore à améliorer. En effet, toutes les cartes n'ont pas encore d'images et l'interface générale du reste minime. Les points évoqués précédemment correspondent aux potentielles voix d'améliorations du projet.
 
 \end{document}
