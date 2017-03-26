@@ -1,21 +1,102 @@
-\documentclass[a4paper,11pt]{report}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[francais]{babel}
-\usepackage{graphicx}
-\usepackage{array}
+% \documentclass[a4paper,11pt]{report}
+% \usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage{lmodern}
+% \usepackage[francais]{babel}
+% \usepackage{graphicx}
+% \usepackage{array}
 
-\title{Data wars}
-\author{Guillaume LAROYENNE, Nathan PRETOT,\\ Jeremy RENAUD,Tom SALVI, Pierre VALENZA}
+\documentclass[a4paper, titlepage]{livret}
+
+\usepackage[utf8]{inputenc} % accents
+\usepackage[T1]{fontenc}      % caractères français
+\usepackage{geometry}         % marges
+\usepackage[francais]{babel}  % langue
+\usepackage{graphicx}         % images
+\usepackage{verbatim}         % texte préformaté
+\usepackage{array}
+\usepackage{graphicx}
+
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\title{Data wars }
+
+\author{Guillaume LAROYENNE, Nathan PRETOT \\ Jeremy RENAUD, Tom SALVI, Pierre VALENZA}
+
+%
+%
+% \title{Rapport de stage}      % renseigne le titre
+% \author{Prénom Nom}           %   "   "   l'auteur
+% \date{18 juin 2007}           %   "   "   la future date de parution
+%
+%          % affiche un rappel discret (en haut à gauche)
+%                               % de la partie dans laquel on se situe
+%
+
 
 \begin{document}
+\begin{titlepage}
+  \begin{sffamily}
+  \begin{center}
+
+    % Upper part of the page. The '~' is needed because \\
+    % only works if a paragraph has started.
+  %  \includegraphics[scale=0.04]{Assets/backOff.png}~\\[1.5cm]
+
+    \textsc{\LARGE IUT informatique de Belfort-Montbéliard}\\[2cm]
+
+    \textsc{\Large Rapport de projet tuteuré}\\[1.5cm]
+
+    % Title
+    \HRule \\[0.4cm]
+    { \huge \bfseries Data wars\\[0.4cm] }
+
+    \HRule \\[2cm]
+    \includegraphics[scale=0.4]{../mainPageimg.png}
+    \\[2cm]
+
+    % Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Guillaume \textsc{LAROYENNE}, \\ Nathan \textsc{PRETOT}, \\ Jeremy \textsc{RENAUD}, \\ Tom \textsc{SALVI}, \\ Pierre \textsc{VALENZA}
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \large
+        \emph{Tuteur :} Mme. \textsc{Deschinkel} \\
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    % Bottom of the page
+    {\large 1\ier{} Octobre 2016 — 27 Mars 2016}
+
+  \end{center}
+  \end{sffamily}
+\end{titlepage}
+
+
+
+
 
 \maketitle
 \tableofcontents
 
 \begin{abstract}
 \end{abstract}
+
+\chapter{Introduction}
+
+	Le projet de deuxième année de DUT informatique est important. Le choix du sujet ainsi que l’équipe de projet le sont aussi. Outre le fait que le projet constitue une note importante pour notre moyenne du semestre, ce dernier peut être un plus pour notre avenir professionnel, ou même pour notre stage. Le choix du sujet, même si il a été plutôt rapide à trouver, a été très long à définir entièrement, en effet fixer les grandes lignes du sujet a été aisé : nous voulions un jeu de plateau, se jouant avec des cartes, et jouable en réseau. Cependant, pour délimiter entièrement le sujet il nous a fallut un temps conséquent qui s'explique par la création d'une multitude de règles pour rendre le jeu intéressant et attractif. De notre point de vue, ce projet avait donc un potentiel très intéressant car nous pouvions appliquer nos connaissances dans de nombreux domaines : en effet il mêle du réseau, de la base de donnée ainsi que du java. Mais également du PHP puisque nous avons dû réaliser un site web.
+	
+	L'équipe de projet est constituée de Guillaume LAROYENNE, de Nathan PRETOT, de Jérémy RENAUD, de Tom SALVI et de Pierre VALENZA.
+	
+	Ce projet a été encadré par Karine DESCHINKEL, enseignante à l'IUT de Belfort-Montbéliard. 
 
 \chapter{Mise en œuvre}
   \section{Logiciel et méthode utilisé}
