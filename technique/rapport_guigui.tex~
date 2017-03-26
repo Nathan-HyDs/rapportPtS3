@@ -25,7 +25,7 @@
 
     \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.6]{Assets/UML_serveur.png}
+        \includegraphics[scale=0.4]{Assets/UML_serveur.png}
         \caption{UML du serveur}
         \label{UML du serveur}
       \end{center}
@@ -44,7 +44,7 @@ Et le serveur son socket serveur TCP et UDP.
 \subsection{UML de gestion des données pour les clients}
  \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.6]{Assets/UML_client.png}
+        \includegraphics[scale=0.4]{Assets/UML_client.png}
         \caption{UML du client}
         \label{UML du client}
       \end{center}
@@ -60,25 +60,25 @@ Et le serveur son socket serveur TCP et UDP.
 
     \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/UML_Network.png}
+        \includegraphics[scale=0.3]{Assets/UML_Network.png}
         \caption{Classe ViewNetwork}
         \label{Classe ViewNetwork}
       \end{center}
     \end{figure}
     
-    La classe \textit{ViewNetwork} (Voir la \textit{figure~\ref{Classe ViewNetwork}}) permet une visualisation en temps réel de la situation du serveur. Elle montre dans une fenêtre un graphe avec pour nœud les clients et leur groupe pour liaisons. Le graphe est créé avec la librairie \textit{GraphSteam}. Lors de la création de la classe un thread est lancé pour réactualiser le graphe sur l’état du serveur. La fréquence réactualisation est de 500 millisecondes.
+    La classe \textit{ViewNetwork} (voir la \textit{figure~\ref{Classe ViewNetwork}}) permet une visualisation en temps réel de la situation du serveur. Elle montre dans une fenêtre un graphe avec pour nœud les clients et leur groupe pour liaisons. Le graphe est créé avec la librairie \textit{GraphSteam}. Lors de la création de la classe un thread est lancé pour réactualiser le graphe sur l’état du serveur. La fréquence réactualisation est de 500 millisecondes.
 
 \subsection{Communication avec la base de donnée}
 
   \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/UML_BDD.png}
+        \includegraphics[scale=0.3]{Assets/UML_BDD.png}
         \caption{Classe BDD\_mysql}
         \label{Classe BDD_mysql}
       \end{center}
     \end{figure}
     
-    La classe \textit{BDD\_mysql} (Voir la \textit{figure~\ref{Classe BDD_mysql}}) permet d’accéder simplement à la base de donnée du serveur. La classe utilise le package \textit{mysql\_connector} pour accéder à la base de donnée et exécuter les recettes SQL. La classe possède des fonctions permettant de savoir si un utilisateur est correctement identifié, ou encore la récupération du deck d’un joueur sous forme objet.
+    La classe \textit{BDD\_mysql} (voir la \textit{figure~\ref{Classe BDD_mysql}}) permet d’accéder simplement à la base de donnée du serveur. La classe utilise le package \textit{mysql\_connector} pour accéder à la base de donnée et exécuter les recettes SQL. La classe possède des fonctions permettant de savoir si un utilisateur est correctement identifié, ou encore la récupération du deck d’un joueur sous forme objet.
 
 
 
@@ -94,7 +94,7 @@ L’organisation physique des communications est représenté sur le schéma en 
   
   \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/s_r_1.png}
+        \includegraphics[scale=0.3]{Assets/s_r_1.png}
         \caption{Schéma montrant les communications physique}
         \label{schémaCom}
       \end{center}
@@ -102,7 +102,7 @@ L’organisation physique des communications est représenté sur le schéma en 
 
    \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/l_r_1.png}
+        \includegraphics[scale=0.2]{Assets/l_r_1.png}
         \caption{Légende du schéma montrant les communications physique}
         \label{leSchémaCom}
       \end{center}
@@ -275,7 +275,7 @@ Si le temps est dépassé le serveur n’acceptera pas une éventuelle acceptati
   \end{table}
 
 
-\section{Principe et fonctionnement de la syntonisation par le réseau}
+\section{Principe et fonctionnement de la synchronisation par le réseau}
 
   Le principe de la synchronisation par réseau est simple. Le but est de synchroniser les modelés, de chaque joueur. De cette manière le module de réseau est indépendant du jeu. La synchronisation fonctionne parfaitement pour tous les jeux tour par tour. Ce principe de fonctionnement est très simple mais, son défaut est que le modèle du jeu doit être léger et \textit{serializable}.
 
@@ -283,14 +283,14 @@ Le schéma en figure \ref{syncros} avec sa légende en \ref{syncroslegende} illu
   \begin{figure}[th]
       \begin{center}
         \includegraphics[scale=0.4]{Assets/s_r_2.png}
-        \caption{Schéma illustrant la syntonisation par le réseau}
+        \caption{Schéma illustrant la synchronisation par le réseau}
         \label{syncros}
       \end{center}
   \end{figure}
   
   \begin{figure}[th]
       \begin{center}
-        \includegraphics[scale=0.4]{Assets/l_r_2.png}
+        \includegraphics[scale=0.3]{Assets/l_r_2.png}
         \caption{Légende du schéma \ref{syncros}}
         \label{syncroslegende}
       \end{center}
@@ -406,15 +406,13 @@ Le schéma illustrant son fonctionnement est en figure \ref{pingpongschema} avec
 
 
 \begin{description}
-  \item[Chez le serveur :]
+  \item[Chez le serveur : ]
   Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Server}, un thread de \textit{Ping} est créé ainsi que un thread \textit{ThreadGrimReaper}, pour chaque nouveau client. 
 \textit{ThreadGrimReaper}, diminue les points de vie de 1 toutes les secondes. Si il tombe à zéro la méthode \textit{offline()} du client est appelé.
 \textit{Ping} attente la réception de packages UDP sur le même port que le TCP. Lorsque un paquet est reçu \textit{Ping} récupère le code d’identification du \textit{Transmitter} dans le paquet. Puis il revoit un message «pong» à l’expéditeur, et régénéré les point de vie du client.
   
   \item[Chez le client : ]
   Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Transmitter}, un thread \textit{Pong} est créé. \textit{Pong} envoi un message UDP au serveur avec à l’intérieur son identifiant que le serveur lui a transmit lors de sa connexion. \textit{Pong} revoie en permanence un message lorsqu’il reçoit «ping». Si il ne reçoit plus de message le \textit{time} out appel la méthode \textit{offline()} du \textit{Transmitter}.
-
-  
 \end{description}
 
 Grace à ces systèmes les sockets non fermé indique donc que les transmissions peuvent être effectué sans problème.
