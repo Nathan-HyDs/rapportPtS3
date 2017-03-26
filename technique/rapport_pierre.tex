@@ -15,7 +15,8 @@
 \maketitle
 \tableofcontents
 
-\chapter{Introduction}
+\chapter{Site web}
+\section{Introduction}
 
 	\begin{figure}[th]
 		\begin{center}
@@ -27,7 +28,7 @@
 
 	Le site est construit en Modèle-Vue-Controleur. Ainsi l'ensemble des requêtes SQL se trouve dans la partie Model, les vues des pages du site sont dans la partie View et les fonctions permettant de lier la vue au modèle sont dans la partie Controller.
 
-\chapter{Model}
+\section{Model}
 	Dans le dossier Modele vous trouverez 3 modèles d'où vous pouvez obtenir les informations de la base de données utilisée par Data war. Ainsi vous pouvez sélectionner, ajouter, modifier et supprimer des informations :
 
 	\begin{figure}[th]
@@ -42,7 +43,7 @@
 	DeckModel contient les requêtes SQL qui sont lié aux \textit{decks} du jeu.
 	UserModel contient les requêtes SQL qui sont lié aux \textit{comptes} du site.    
 
-\chapter{View}
+\section{View}
 	\begin{figure}[th]
 		\begin{center}
 		\includegraphics[scale=0.4]{Assets/view.png}
@@ -59,7 +60,7 @@
 
 	Les fichiers en dehors de ces dossiers sont les barres de navigation, la page d'accueil, les pages d'inscription au site et des pages de test.
     
-	\section{le backOff}
+	\subsection{le backOff}
         Le backOff contient les pages qui ne doivent être accessible que par les administrateurs du site, c'est à partir d'ici que la modification des cartes et des utilisateurs est possible. \textit{Il est essentiel que ces pages soient accessibles seulement aux administrateurs. }
     \begin{figure}[th]
       \begin{center}
@@ -83,7 +84,7 @@
 		\item show : lister l'ensemble des cartes présentes dans la base de donnée
 	\end{enumerate}
 
-        \subsection{Client}
+        \subsubsection{Client}
          Dans le dossier CLient il n'y a qu'une page : "show", elle liste les comptes du site. 
         \begin{figure}[th]
       		\begin{center}
@@ -100,7 +101,7 @@
 		\item le compte obtient les droits administrateurs
 	\end{enumerate}
          
-	\section{le frontOff}
+	\subsection{le frontOff}
         Le frontOff contient uniquement une page qui permet au joueur de modifier son deck.
     \begin{figure}[th]
       \begin{center}
@@ -112,7 +113,7 @@
 
 	 La modification du deck se doit d'être confortable pour l'utilisateur. Ainsi la partie supérieure représente le deck actuel du joueur, le tableau à gauche liste l'ensemble des cartes du jeu et la carte sélectionner s'affichent sur la droite.
 
-\chapter{Controller}
+\section{Controller}
 	Dans le dossier Controller vous trouverez l'ensemble des fonctions qui lient la vue avec le modèle.
 
 	\begin{figure}[th]
@@ -131,7 +132,7 @@
 		\item UserController permet toute les actions possible sur un utilisateur
 	\end{enumerate}
 
-	\section{le contrôle des données}
+	\subsection{le contrôle des données}
 	Lorsque des informations sont transmises par l'utilisateur à la base de données comme par exemple l'ajout d'une nouvelle carte il est important de procéder aux vérifications des champs de saisie. Silex nous propose de mettre en place des contraintes sur ces champs.
     \begin{figure}[th]
       \begin{center}
@@ -149,7 +150,7 @@
 		\item Renvoyer le client à la page de saisie si une erreur est présente
 	\end{enumerate}
 
-	\section{Appelle des requêtes SQL}
+	\subsection{Appelle des requêtes SQL}
 	 \begin{figure}[th]
      		 \begin{center}
         	\includegraphics[scale=0.4]{Assets/requete.png}
@@ -171,3 +172,4 @@
         
 \end{document}  
 
+\grid

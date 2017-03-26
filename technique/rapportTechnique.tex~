@@ -276,5 +276,5 @@
           \item[SpawnExcpetion :]Déclenché par un joueur qui tente de poser une unité sur une case qui est déjà occupée ou qui n'appartient pas à celui-ci.
         \end{description}
         
-        
+        \listoffigures  
 \end{document}  
