@@ -667,47 +667,47 @@ Après cette première étape la suppression du client de la liste du serveur es
    
    \item[La suppression des groupes]
    \textit{\\Classe : Serveur – Fonction : deleteGroup()\\}
-   Cette méthode supprime le groupe passé en paramétre du serveur, pour cela le mutex de la liste contenant les groupes est verrouillé pour la suppression. Mais avant cette étape, la méthode \textit{terminate()} du groupe en question est appelé pour être certain que les clients du groupe soit déconnecté. Pour cela la méthode \textit{terminate()} appelle un à un la méthode \textit{offline()} de chaque client.
+   Cette méthode supprime le groupe passé en paramétre du serveur, pour cela le mutex de la liste contenant les groupes est verrouillé pour la suppression. Mais avant cette étape, la méthode \textit{terminate()} du groupe en question est appelée pour être certain que les clients du groupe soient déconnectés. Pour cela la méthode \textit{terminate()} appelle un à un la méthode \textit{offline()} de chaque client.
 \end{description}
 
 \subsubsection{Les procédures de nettoyage}
 \begin{description}
   \item[Déconnexion d’un client]
   \textit{\\Classe : Client – Fonction : offline()\\}
-Cette méthode ferme les flux objet ainsi que le socket de sa classe. De cette façon aucune donnée ne peut être échangé, et les threads de communication se stopperont par eux même en identifiant sa fermeture.
-Puis par sécurité comme la classe client garde en mémoire tous les threads en relation avec celui-ci, la méthode \textit{stopThread()} est appelé pour s’assurer de leur fin. Afin d’être certain que aucun processus léger ne tourne inutilement en cas d’erreur.
+Cette méthode ferme les flux objet ainsi que le socket de sa classe. De cette façon aucune donnée ne peut être échangée, et les threads de communication se stopperont par eux même en identifiant sa fermeture.
+Puis par sécurité comme la classe client garde en mémoire tous les threads en relation avec celui-ci, la méthode \textit{stopThread()} est appelée pour s’assurer de leur fin. Afin d’être certain que aucun processus léger ne tourne inutilement en cas d’erreur.
   
   \item[Détection d’un client déconnecté]
   \textit{\\Classe : Serveur – Fonction : clean()\\}
-  La méthode parcoure tous les éléments de la liste de clients, si un client de la liste est marqué comme fermé ou si son socket est fermé alors elle appelle la méthode \textit{deleteClient()} pour supprimer le client déconnecté.
+  La méthode parcourt tous les éléments de la liste de clients, si un client de la liste est marqué comme fermé ou si son socket est fermé alors elle appelle la méthode \textit{deleteClient()} pour supprimer le client déconnecté.
   
   \item[Détection d’un groupe invalide]
   \textit{\\Classe : Serveur – Fonction : clean()\\}
-  La méthode parcoure tous les éléments de la liste de groupes, si un groupe est détecté comme invalide alors elle appelle la méthode \textit{deleteGroup()} pour le supprimer.
+  La méthode parcourt tous les éléments de la liste de groupes, si un groupe est détecté comme invalide alors elle appelle la méthode \textit{deleteGroup()} pour le supprimer.
 Un groupe est considéré comme invalide si ces points ne sont pas respectés :\\
 -Il doit avoir au moins 2 membres si il est configuré.\\
--L’hôte doit être pressent dans le groupe si sa création n’est pas achevée.
+-L’hôte doit être présent dans le groupe si sa création n’est pas achevée.
 
   \item[Activation du nettoyage]
   \textit{\\Classe : ThreadCleaner – Fonction : run()\\}
-  Le nettoyage des clients déconnectés et des groupes invalides est réalisé par la méthode clean(). Mais pour que le nettoyage soit réalisé encore faut-il que la méthode soit appelée. C’est le rôle de cette classe. Cette classe crée un thread qui est créé en appelant la méthode \textit{startCleanner()} dans la classe Serveur. Ce thread a pour mission de rafraîchir le nettoyage à une fréquence de 500 millisecondes.
+  Le nettoyage des clients déconnectés et des groupes invalides est réalisé par la méthode clean(). Mais pour que le nettoyage soit réalisé encore faut-il que la méthode soit appelée. C’est le rôle de cette classe. Cette classe construit un thread qui est créé en appelant la méthode \textit{startCleanner()} dans la classe Serveur. Ce thread a pour mission de rafraîchir le nettoyage à une fréquence de 500 millisecondes.
   
   \end{description}
   
   \subsection{Détection des déconnexions}
-    Un client est déconnecté aux yeux du programme si le socket est fermé. Mais le problème est que le socket ne se ferme pas automatiquement si le client se déconnecte physiquement (fermeture du programme, ligne coupé…). Il faut donc réaliser cette fermeture manuellement. Pour cella deux méthodes sont utilisées.
+    Un client est déconnecté aux yeux du programme si le socket est fermé. Mais le problème est que le socket ne se ferme pas automatiquement si le client se déconnecte physiquement (fermeture du programme, ligne coupée…). Il faut donc réaliser cette fermeture manuellement. Pour cela deux méthodes sont utilisées.
     
   \subsubsection{Détection dans les classes de communication}
     \begin{center}
     \textit{Classe : Toutes les classes de communications (client et serveur)}
     \end{center}
-      Dans toutes les classes de communication, l’action d’envoi ou de réception d’un objet, peuvent provoquer une exception en cas de problème de transmission. Si ce cas se produit un trop grand nombre de fois, la fermeture du socket est ordonné.
+      Dans toutes les classes de communication, l’action d’envoi ou de réception d’un objet, peut provoquer une exception en cas de problème de transmission. Si ce cas se produit un trop grand nombre de fois, la fermeture du socket est ordonnée.
     
     \subsubsection{Détection avec ping-pong}
     \begin{center}
     \textit{Classe : Ping, ThreadGrimReaper, Pong, Serveur}
     \end{center}
-      Les déconnexions ne génèrent pas toujours une \textit{IOExeptions} en java. Par exemple dans le cas où un câble de communication serait débranché. Pour être certain que le serveur est toujours en communication avec ses clients et inversement un protocole UDP a été mis en place. Le fonctionnement du test de communication est simple, il est le même que le jeu du ping-pong. Si la balle ne revient plus alors la connexion est brisé.
+      Les déconnexions ne génèrent pas toujours une \textit{IOExeption} en java. Par exemple dans le cas où un câble de communication serait débranché. Pour être certain que le serveur est toujours en communication avec ses clients et inversement un protocole UDP a été mis en place. Le fonctionnement du test de communication est simple, il est le même que le jeu du ping-pong. Si la balle ne revient plus alors la connexion est brisée.
 \\
 \\
 \textbf{Principe de fonctionnement du ping-pong :}
@@ -732,15 +732,15 @@ Le schéma illustrant son fonctionnement est en figure \ref{pingpongschema} avec
 
 \begin{description}
   \item[Chez le serveur : ]
-  Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Server}, un thread de \textit{Ping} est créé ainsi que un thread \textit{ThreadGrimReaper}, pour chaque nouveau client. 
-\textit{ThreadGrimReaper}, diminue les points de vie de 1 toutes les secondes. Si il tombe à zéro la méthode \textit{offline()} du client est appelé.
-\textit{Ping} attend la réception de packages UDP sur le même port que le TCP. Lorsque un paquet est reçu \textit{Ping} récupère le code d’identification du \textit{Transmitter} dans le paquet. Puis il revoit un message «pong» à l’expéditeur, et régénéré les point de vie du client.
+  Lorsque la méthode \textit{ping\_pong()} est appelée dans la classe \textit{Server}, un thread de \textit{Ping} est créé ainsi que un thread \textit{ThreadGrimReaper}, pour chaque nouveau client. 
+\textit{ThreadGrimReaper}, diminue les points de vie de 1 toutes les secondes. Si il tombe à zéro la méthode \textit{offline()} du client est appelée.
+\textit{Ping} attend la réception de packages UDP sur le même port que le TCP. Lorsque un paquet est reçu \textit{Ping} récupère le code d’identification du \textit{Transmitter} dans le paquet. Puis il renvoit un message "pong" à l’expéditeur, et régénéré les points de vie du client.
   
   \item[Chez le client : ]
-  Lorsque la méthode \textit{ping\_pong()} est appelé dans la classe \textit{Transmitter}, un thread \textit{Pong} est créé. \textit{Pong} envoi un message UDP au serveur avec à l’intérieur son identifiant que le serveur lui a transmit lors de sa connexion. \textit{Pong} revoie en permanence un message lorsqu’il reçoit «ping». Si il ne reçoit plus de message le \textit{time out} appel la méthode \textit{offline()} du \textit{Transmitter}.
+  Lorsque la méthode \textit{ping\_pong()} est appelée dans la classe \textit{Transmitter}, un thread \textit{Pong} est créé. \textit{Pong} envoi un message UDP au serveur avec à l’intérieur son identifiant que le serveur lui a transmis lors de sa connexion. \textit{Pong} renvoit en permanence un message lorsqu’il reçoit "ping". Si il ne reçoit plus de message le \textit{time out} appelle la méthode \textit{offline()} du \textit{Transmitter}.
 \end{description}
 
-Grace à ces systèmes les sockets non fermé indique donc que les transmissions peuvent être effectué sans problème.
+Grâce à ces systèmes les sockets non fermés indique donc que les transmissions peuvent être effectuées sans problème.
 
 
 \chapter{Site web}
