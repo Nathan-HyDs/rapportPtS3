@@ -2,6 +2,7 @@
 % \usepackage[T1]{fontenc}
 % \usepackage[utf8]{inputenc}
 % \usepackage{lmodern}
+
 % \usepackage[francais]{babel}
 % \usepackage{graphicx}
 % \usepackage{array}
@@ -12,6 +13,7 @@
 \usepackage[T1]{fontenc}      % caractères français
 \usepackage{geometry}         % marges
 \usepackage[francais]{babel}  % langue
+\usepackage{etoc}
 \usepackage{graphicx}         % images
 \usepackage{verbatim}         % texte préformaté
 \usepackage{array}
@@ -81,9 +83,10 @@
 \end{titlepage}
 
 
+\etocdepthtag.toc{mtchapter}
+\etocsettagdepth{mtchapter}{subsection}
+\etocsettagdepth{mtappendix}{none}
 \tableofcontents
-
-
 \chapter{La base de donnée}
     Dans cette partie nous allons détailler la base de données utilisée par \textit{Data wars}. Nous allons diviser le MCD (\textit{Figure~\ref{fig1}}) en plusieurs sous-parties que nous allons détailler par la suite. Nous allons donc procéder à la découpe suivante : 
     
@@ -865,6 +868,12 @@ Grâce à ces systèmes les sockets non fermés indique donc que les transmissio
 
       
   \appendix
+  \newpage
+  
+\etocdepthtag.toc{mtappendix}
+\etocsettagdepth{mtchapter}{none}
+\etocsettagdepth{mtappendix}{subsection}
+\tableofcontents
 
   \chapter{Annexe I : Organigramme des étapes de création d'un groupe}
     \begin{figure}[th]
