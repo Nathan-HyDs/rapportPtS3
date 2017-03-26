@@ -1,15 +1,88 @@
-\documentclass[a4paper,11pt]{report}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[francais]{babel}
-\usepackage{graphicx}
-\usepackage{array}
+% \documentclass[a4paper,11pt]{report}
+% \usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage{lmodern}
+% \usepackage[francais]{babel}
+% \usepackage{graphicx}
+% \usepackage{array}
 
-\title{Data wars}
-\author{Guillaume LAROYENNE, Nathan PRETOT,\\ Jeremy RENAUD,Tom SALVI, Pierre VALENZA}
+\documentclass[a4paper, titlepage]{livret}
+
+\usepackage[utf8]{inputenc} % accents
+\usepackage[T1]{fontenc}      % caractères français
+\usepackage{geometry}         % marges
+\usepackage[francais]{babel}  % langue
+\usepackage{graphicx}         % images
+\usepackage{verbatim}         % texte préformaté
+\usepackage{array}
+\usepackage{graphicx}
+
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\title{Data wars }
+
+\author{Guillaume LAROYENNE, Nathan PRETOT \\ Jeremy RENAUD, Tom SALVI, Pierre VALENZA}
+
+%
+%
+% \title{Rapport de stage}      % renseigne le titre
+% \author{Prénom Nom}           %   "   "   l'auteur
+% \date{18 juin 2007}           %   "   "   la future date de parution
+%
+%          % affiche un rappel discret (en haut à gauche)
+%                               % de la partie dans laquel on se situe
+%
+
 
 \begin{document}
+\begin{titlepage}
+  \begin{sffamily}
+  \begin{center}
+
+    % Upper part of the page. The '~' is needed because \\
+    % only works if a paragraph has started.
+  %  \includegraphics[scale=0.04]{Assets/backOff.png}~\\[1.5cm]
+
+    \textsc{\LARGE IUT informatique de Belfort-Montbéliard}\\[2cm]
+
+    \textsc{\Large Rapport de projet tuteuré}\\[1.5cm]
+
+    % Title
+    \HRule \\[0.4cm]
+    { \huge \bfseries Data wars\\[0.4cm] }
+
+    \HRule \\[2cm]
+    \includegraphics[scale=0.4]{../mainPageimg.png}
+    \\[2cm]
+
+    % Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Guillaume \textsc{LAROYENNE}, \\ Nathan \textsc{PRETOT}, \\ Jeremy \textsc{RENAUD}, \\ Tom \textsc{SALVI}, \\ Pierre \textsc{VALENZA}
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \large
+        \emph{Tuteur :} Mme. \textsc{Deschinkel} \\
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    % Bottom of the page
+    {\large 1\ier{} Octobre 2016 — 27 Mars 2016}
+
+  \end{center}
+  \end{sffamily}
+\end{titlepage}
+
+
+
+
 
 \maketitle
 \tableofcontents
@@ -17,36 +90,61 @@
 \begin{abstract}
 \end{abstract}
 
+\chapter{Introduction}
+
+	Le projet de deuxième année de DUT informatique est important. Le choix du sujet ainsi que l’équipe de projet le sont aussi. Outre le fait que le projet constitue une note importante pour notre moyenne du semestre, ce dernier peut être un plus pour notre avenir professionnel, ou même pour notre stage. Le choix du sujet, même si il a été plutôt rapide à trouver, a été très long à définir entièrement, en effet fixer les grandes lignes du sujet a été aisé : nous voulions un jeu de plateau, se jouant avec des cartes, et jouable en réseau. Cependant, pour délimiter entièrement le sujet il nous a fallut un temps conséquent qui s'explique par la création d'une multitude de règles pour rendre le jeu intéressant et attractif. De notre point de vue, ce projet avait donc un potentiel très intéressant car nous pouvions appliquer nos connaissances dans de nombreux domaines : en effet il mêle du réseau, de la base de donnée ainsi que du java. Mais également du PHP puisque nous avons dû réaliser un site web.
+	
+	L'équipe de projet est constituée de Guillaume LAROYENNE, de Nathan PRETOT, de Jérémy RENAUD, de Tom SALVI et de Pierre VALENZA.
+	
+	Ce projet a été encadré par Karine DESCHINKEL, enseignante à l'IUT de Belfort-Montbéliard. 
+
 \chapter{Mise en œuvre}
-
-
-  \section{Organisation du projet}
+  \section{Logiciel et méthode utilisé}
+  \subsection{Organisation du projet}
      \begin{description}
        \item[Logiciel de gestion de versions :] nous avons utilisé \textit{git} et la plateforme \textit{GitHub} pour gérer le partage des fichiers et la gestion des versions. Nous avons utilisé ceci car, l'ayant appris en cours, tout les membres du projet étaient capable de l'utiliser.
        \item[Communication :] pour la communication d'information importante et d'information durable, l'utilisation de mail ou encore de système de discussion instantanée tel que \textit{messenger}. En plus de tout ceci, l'utilisation du logiciel de discussion \textit{Discord} nous a permit de parler du projet de vive voix.
        \item[Répartition des tâches :] pour la répartition des tâches et l'organisation du projet, nous nous sommes servis du site \textit{Trello}. Son interface simple, mais efficace, nous a permit de suivre l'avancé du projet.
      \end{description}
   
-  \section{Jeu}
+  \subsection{Jeu}
     \begin{description}
       \item[Langage de programmation :] \textit{Java} fut choisit pour plusieurs raisons, notamment, étant le langage le plus utilisés lors de notre formation, tout les membres de notre groupe avait un niveau équivalent sur celui-ci. De plus, la création d'une interface graphique en \textit{Java}, ayant été vue en cours, était donc connu par notre groupe.   
       \item[Base de données :] nous avons décidé d'utiliser \textit{MySQL}. Nous avons fait ce choix pour la simplicité d’intégration avec \textit{java} via la bibliothèque \textit{mysql-connector}.
       
     \end{description}
   
-  \section{Interface}
-    \subsection{Le Paradigme MVC}
-      Nous avons structuré notre projet avec le paradigme MVC ( Modèle, Vue, Contrôleur), car ce format s'adapte parfaitement au jeu en tour par tour. En effet, il permet de juste envoyer la partie modèle avec le réseau sans toucher ni aux contrôleurs ni à la vue.   
-    \subsection{La bibliothèque graphique Java Swing}
-      Nous avons décidé d'utiliser la bibliothèque graphique Java Swing car nous l'avions déjà utiliser sur plusieurs projets et que c'est la technologie que nous maîtrisions le plus.
-    \subsection{Logiciels}
-      Voici les différents logiciels utilisés pour réaliser les graphismes.
-    \subsubsection{Gimp}
-      Nous avons utilisé ce logiciel pour la modification des images de la vue. Nous avons choisi ce logiciel car c'est un logiciel gratuit et que l'on maîtrisait déjà un peu. 
-    \subsubsection{Inkscape}
-      Nous avons utilisé ce logiciel pour la création des images de la vue. Nous avons choisi \textit{inkscape} car c'est un logiciel libre qui permet de faire du dessin vectoriel, et donc de pouvoir facilement redimensionner les images. 
+    \subsection{Interface}
+    \subsubsection{Le Paradigme MVC}
+    Nous avons structuré notre projet avec le paradigme MVC ( Modèle, Vue, Contrôleur), car ce format s'adapte parfaitement au jeu en tour par tour. En effets il permet de juste envoyer la partie modèle avec le réseau sans toucher ni aux contrôleurs ni à la vue.   
+    \subsubsection{La bibliothèque graphique Java Swing}
+    Nous avons décidé d'utiliser la bibliothèque graphique Java Swing car nous l'avions déjà utiliser sur plusieurs projets et que c'est la technologie que nous maitrisions le plus.
+    \subsubsection{Logiciels}
+    Voici les différents logiciels utilisés pour réaliser les graphismes.
+
+    \begin{description}
+      \item[Gimp :] Nous avons utilisé ce logiciel pour la modification des images de la vue. Nous avons choisi ce logiciel car c'est un logiciel gratuit et que l'on maitrisait déjà un peu. 
+      \item[Inkscape :] Nous avons utilisé ce logiciel pour la création des images de la vue. Nous avons choisi inkscape car c'est un logiciel libre qui permet de faire du dessin vectoriel, et donc de pouvoir facilement redimensionner les images. 
+    \end{description}
 
 
+
+\subsection{Réseau}
+
+\subsubsection{Langage utilisé}
+Le langage Java est utilisé pour le serveur et le client pour sa simplicité. En effet java permet un échange des données extrêmement simple grâce à la sérialisation de ses objets. De plus la création des connexions réseau se fait rapidement.
+En utilisant ce langage, la communication entre les programmes a donc pu être réalisée rapidement, permettant aux développeurs de se consacrer davantage sur les protocoles.
+
+\subsubsection{Bibliothèque utilisée}
+Les bibliothèques utilisées pour le serveur sont :
+\begin{enumerate}
+  \item GraphStream, pour la visualisation de l'état du serveur sous forme de graphe. Car cette librairie est très similaire à la librairie PHP que nous avons utilisée aux parts avant.
+  \item MySQL Connectors, pour la communication avec la base de donné. Car cette librairie contient de nombreux outils compatibles avec Java Swing.
+  \item Java Zoom, pour la lecture de fichiers audio. Car cette librairie est très simple d’utilisation et contient une bonne documentation.
+\end{enumerate}
+
+\subsubsection{Test unitaire}
+Pour pouvoir identifier rapidement les erreurs éventuelles dans les protocoles, ainsi que des failles de sécurité, des tests unitaires ont été réalisés. Ces tests ont été réalisées avec la librairie JUNIT. 
 
 
 	
@@ -86,17 +184,53 @@
       \subsection{Les composants du projet}
         A ce jour, le projet comporte :
 
-      \subsubsection{Un site web permettant :}
+ 	\subsection{Site internet}
 
-         - De créer un compte utilisateur
-           
-         - De créer et modifier son deck de carte pour le jouer en jeu.
-         
-         - De télécharger le jeu.
-         
-         \begin{center}
-        \includegraphics[scale=0.2]{Assets/site.png} 
-        \end{center}
+	\paragraph{}
+       Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d’ailleurs pour la vue nous avons fait le choix d'en faire un site \textit{responsif} afin d'y accéder depuis n'importe quel appareil. 
+
+	\subsubsection{Partie administrateur} 
+	\paragraph{}
+
+    	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_admin.png}
+          \caption{Barre de navigation côté administrateur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+	 La première du site n'est accessible que par les administrateurs afin de pouvoir mettre à jour : 
+	\begin{enumerate}
+		\item les cartes
+		\item les joueurs
+		\item les effets
+	\end{enumerate}Il a donc été nécessaire d'y installer une sécurité afin que les données enregistrées soient correctes pour ainsi éviter que des conflits apparaissent. Pour cela nous utilisons un framework : Silex, qui offre donc des services pour mettre en place des contraintes qui doivent être respectées par l'utilisateur pour que les données saisies soient envoyées dans la base de données.
+
+	\newpage
+
+	\subsubsection{Partie joueur}
+	\paragraph{}
+
+	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_joueur.png}
+          \caption{Barre de navigation côté joueur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+      La seconde partie du site est donc accessible par les joueurs qui d'ailleurs devront créer leur compte sur le site. À partir d'ici il est nécessaire de respecter les contraintes du jeu : 
+
+	\begin{enumerate}
+		\item la taille du deck a une limite à ne pas dépasser
+		\item une carte n'est pas dans le deck ou l'est maximum une fois
+	\end{enumerate}Pour cela on empêche tout simplement l'ajout lorsque cette limite est atteinte à l'aide de requêtes SQL qui compte et compare les cartes du jeu avec celles présentes dans le deck.
+	
+	\paragraph{}
+	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du \textit{Javascript}.
+
+
 
 
       \subsubsection{Un système réseau avec interface réutilisable\\ sur d'autres projets :}

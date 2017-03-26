@@ -67,7 +67,7 @@
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
       \begin{flushright} \large
-        \emph{Tuteur :} Mme. \textsc{Deschinkel} \\
+        \emph{Tutrice :} Mme. \textsc{Deschinkel} \\
       \end{flushright}
     \end{minipage}
 
@@ -87,8 +87,6 @@
 \maketitle
 \tableofcontents
 
-\begin{abstract}
-\end{abstract}
 
 \chapter{Introduction}
 
@@ -169,6 +167,15 @@ Pour pouvoir identifier rapidement les erreurs éventuelles dans les protocoles,
     
     De plus des éléments du domaine informatiques, notre projet nous a demandé la création entière d'un jeu, nous demandant une réflexion autours des règles et fonctionnalités de celui-ci, ainsi que de créer des cartes innovantes pour celui-ci. Cette partie à été endossée par l'ensemble de l'équipe.
     
+    	\subsection{Site internet}
+
+ 	\textbf{Langage de programmation :} PHP est un langage simple de programmation qui est le plus utilisé pour le développement de sites web. Nous l'avons aussi utilisé afin d'exploiter une base de données.
+
+	\textbf{Framework :} nous avons choisi d'exploiter un micro-framework : Silex. Du fait qu'il soit minimaliste il laisse beaucoup de liberté aux développeurs comme le fait de ne pas imposer une architecture. De plus il offre un ensemble de services destiner aux contrôles de données.
+
+	\textbf{Framework CSS :} Bootstrap est un kit CSS créer par les développeurs de Twitter. Il permet de développer un site reponsive, donc pouvant s'adapter sur différents appareils, facilement et efficacement.
+
+    
   \section{Gestion du temps}
     Le projet a débuté sur la conception du jeu. C'est-à-dire la création des règles, ainsi que les éléments de modélisation au niveau informatique ( MCD, UML, etc...).  C'est étape, qui a durée un mois et demis, fut suivit du début de la phase de programmation du réseau et du jeu. La partie interface commença un peu plus tard, car elle nécessitais d'avoir une partie du modèle de terminée pour commencer. Le site web ne commença qu'a partir de janvier car celui-ci n'était pas prévus dans le travail initiale. Une première version du jeu en mono-poste fut terminée au milieu des vacances de février, suivis de près par la version réseau.
     \begin{figure}[th]
@@ -180,78 +187,95 @@ Pour pouvoir identifier rapidement les erreurs éventuelles dans les protocoles,
     \end{figure}
   
 
-    \section{Rendu}
-      \subsection{Les composants du projet}
-        A ce jour, le projet comporte :
 
- 	\subsection{Site internet}
+\section{Rendu}
+\subsection{Les composants du projet}
+A ce jour, le projet comporte :
 
-	\paragraph{}
-       Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d’ailleurs pour la vue nous avons fait le choix d'en faire un site \textit{responsif} afin d'y accéder depuis n'importe quel appareil. 
-
-	\subsubsection{Partie administrateur} 
-	\paragraph{}
-
-    	\begin{figure}[th]
-      	 \begin{center}
-          \includegraphics[scale=0.25]{Assets/navbar_admin.png}
-          \caption{Barre de navigation côté administrateur}
-          \label{RepTravail}
-         \end{center}
-        \end{figure}
-
-	 La première du site n'est accessible que par les administrateurs afin de pouvoir mettre à jour : 
-	\begin{enumerate}
-		\item les cartes
-		\item les joueurs
-		\item les effets
-	\end{enumerate}Il a donc été nécessaire d'y installer une sécurité afin que les données enregistrées soient correctes pour ainsi éviter que des conflits apparaissent. Pour cela nous utilisons un framework : Silex, qui offre donc des services pour mettre en place des contraintes qui doivent être respectées par l'utilisateur pour que les données saisies soient envoyées dans la base de données.
-
-	\newpage
-
-	\subsubsection{Partie joueur}
-	\paragraph{}
-
-	\begin{figure}[th]
-      	 \begin{center}
-          \includegraphics[scale=0.25]{Assets/navbar_joueur.png}
-          \caption{Barre de navigation côté joueur}
-          \label{RepTravail}
-         \end{center}
-        \end{figure}
-
-      La seconde partie du site est donc accessible par les joueurs qui d'ailleurs devront créer leur compte sur le site. À partir d'ici il est nécessaire de respecter les contraintes du jeu : 
-
-	\begin{enumerate}
-		\item la taille du deck a une limite à ne pas dépasser
-		\item une carte n'est pas dans le deck ou l'est maximum une fois
-	\end{enumerate}Pour cela on empêche tout simplement l'ajout lorsque cette limite est atteinte à l'aide de requêtes SQL qui compte et compare les cartes du jeu avec celles présentes dans le deck.
+	\subsubsection{Un site web permettant :}
 	
-	\paragraph{}
-	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du \textit{Javascript}.
+	 - De créer un compte utilisateur
+		 
+	 - De créer et modifier son deck de carte pour le jouer en jeu.
+	 
+	 - De télécharger le jeu.
+	 \begin{figure}[th]
+	 \begin{center}
+	  \includegraphics[scale=0.2]{Assets/site.png} 
+	\caption{Page de création du deck}
+     \label{siteWeb}
+      \end{center}
+    \end{figure}
 
+	
+	\subsubsection{Un système réseau avec interface réutilisable\\ sur d'autres 			projets :}
+	
+	Il permet de créer un groupe, envoyer une invitation au membres connectés, ces derniers peuvent gérer les invitations reçus ( accepter ou non ) l'invitation est limitée dans le temps pour éviter d'attendre un joueur éternellement. Une fois le groupe créé l'hôte peut lancer la partie.   
+	
+	 \begin{figure}[th]
+	\begin{center}
+	\includegraphics[scale=0.5]{Assets/connection3.png} 
+	\caption{Interface du module réseau}
+     \label{interface reseau}
+      \end{center}
+    \end{figure}
 
+	
+	\subsubsection{Un jeu jouable en Réseau de 2 à 4 joueurs.}
+	
+	Dans le jeu on peut récupérer le deck en fonction du joueur\\
+	 \begin{figure}[th]	
+	\begin{center}
+	\includegraphics[scale=0.3]{Assets/mainJoueur.png} 
+	\caption{main du joueur}
+     \label{cartesJoueur}
+      \end{center}
+    \end{figure}
 
+	
+	 Jouer des cartes
+	
+	 Déplacer des unités
+	  \begin{figure}[th]
+	 \begin{center}
+	\includegraphics[scale=1]{Assets/UniteeSelectMove.png} 
+	\caption{déplacement d'une unité}
+     \label{MouvementUnité}
+      \end{center}
+    \end{figure}
 
-      \subsubsection{Un système réseau avec interface réutilisable\\ sur d'autres projets :}
+	 
+	Attaquer des unités ennemies
+	
+	Capturer des bâtiments de ressources
+	
+	 \begin{figure}[th]
+	\begin{center}
+	\includegraphics[scale=0.5]{Assets/CaptureSucces.png} 
+	\caption{Capture d'un bâtiment}
+     \label{CaptureBatiment}
+      \end{center}
+    \end{figure}
 
-        Il permet de créer un groupe, envoyer une invitation au membres connectés, ces derniers peuvent gérer les invitations reçus ( accepter ou non ) l'invitation est limitée dans le temps pour éviter d'attendre un joueur éternellement. Une fois le groupe créé l'hôte peut lancer la partie.   
+	
+	Voir les informations des entités sur la carte
+	 \begin{figure}[th]
+	\begin{center}
+	\includegraphics[scale=0.3]{Assets/infosCarte.png} 
+	\caption{Informations sur une unité}
+     \label{InfoUnité}
+      \end{center}
+    \end{figure}
 
+	
+    La gestion des ressources est fonctionnelle
+	
+	 On peut attaquer le QG ennemi pour gagner la partie.
+	
+ La partie de chaque joueur est synchronisée à chaque fin de tour d'un joueur.
+	
+	
 
-        \begin{center}
-        \includegraphics[scale=0.5]{Assets/connection3.png} 
-        \end{center}
-
-        \subsubsection{Un jeu jouable en Réseau de 2 à 4 joueurs.}
-
-        Dans le jeu on peut récupérer le deck en fonction du joueur, jouer des cartes, déplacer des unités, attaquer des unités ennemies, capturer des bâtiments de ressources, voir les informations des entités sur la carte. La gestion des ressources est fonctionnelle.
-
-         On peut attaquer le QG ennemi pour gagner la partie.
-
-        La partie de chaque joueur est synchronisée à chaque fin de tour d'un joueur.
-        \begin{center}
-        \includegraphics[scale=0.3]{Assets/UniteeSelectMove.png} 
-        \end{center}
 
   
   \chapter{Bilan}
