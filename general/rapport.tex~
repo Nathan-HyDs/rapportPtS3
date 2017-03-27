@@ -87,6 +87,10 @@
 \maketitle
 \tableofcontents
 
+\chapter{Remerciement}
+Nous tenons à remercier notre enseignante tutrice, Madame Karine Deschinkel qui nous a été d'une aide précieuse et qui nous a consacré du temps, notamment pour définir des règles précises.
+
+Nous remercions également Madame Corinne PATERLINI, pour ses cours sur la dynamique de groupe et ceux sur la gestion de conflits.
 
 \chapter{Introduction}
 
@@ -96,8 +100,52 @@
 	
 	Ce projet a été encadré par Karine DESCHINKEL, enseignante à l'IUT de Belfort-Montbéliard. 
 
+\chapter{Cahier des charges}
+  Pour réaliser le cahier des charges, nous avions deux principaux types de contraintes, les contraintes liées a la programmation, ainsi que les contraintes fonctionnelles.
+  \section{Les contraintes de programmation}
+    \begin{description}
+      \item[Intégrer une base de données :] Une base de données doit stocker les informations des différentes cartes.
+      \item[Le site web :] Le joueur peut décider des cartes qu’il va utiliser lors de sa prochaine partie depuis un site web, relié a la base de données mais non directement relié a l’application.
+    \end{description}
+    
+      \section{Les contraintes fonctionnelle :}
+      \begin{description}
+        \item[Le plateau :] 	La taille du plateau varie selon le nombre de joueurs
+	Tous les éléments se trouvant sur le plateau ne font qu’une seule case.
+	Une case ne peut contenir qu’un seul élément.
+	Le plateau contient des obstacles, des quartiers généraux et des bâtiments de ressources 			avant que la partie ne commence. 
+        \item[Les unités : ]	Une unité ne doit prendre qu’une seule case.
+	Une unité peut être posée uniquement sur une case adjacente a un bâtiment contrôlé.
+	Une unité dispose d’un coût, de points d’attaque, de points de vie, de points de mouvement, 		d’une portée, d’une image, et d’un nom.
+	Une unité peut disposer d’un effet.
+	Une unité est détruite lorsque ses points de vie atteignent zéro.
+	Une unité peut se déplacer et attaquer.
+        \item[Les sorts :] Un sort dispose d’un coût et d’un effet.
+
+        \item[Les bâtiments de ressources :]Un bâtiment de ressource peut être soit neutre soit contrôlé par un joueur, lorsqu’une unité 		se trouve sur une case adjacente a lui
+        \item[Les joueurs :] 	Chaque joueur dispose d’un ensemble de cartes appelé deck qu’il a lui même construit 		depuis le site internet.
+	Chaque joueur dispose de ressources, obtenues en contrôlant des bâtiments.
+	Chaque joueur commence avec un quartier général.
+	Lorsque le quartier général d’un joueur est détruit, ses unités sont détruites, et il perd la 			partie
+        \item[Les obstacles :] Un obstacle ne peux pas être détruit.
+        \item[Les ressources :] Chaque joueur dispose d’une réserve de ressources. 	Chaque joueur reçoit des ressources en fonction du nombre de bâtiment qu’il contrôle au début de son tour. 
+        \item[Les conditions de victoire : ] La partie se termine lorsqu’il ne reste plus qu’un joueur en vie.
+        \item[Les cartes : ] Lorsqu’une carte est utilisée, son coût est déduit de la réserve de ressources du joueur qui l’a 		posé, puis la carte retourne à la fin du deck.
+        \item[Le deck : ]	Un deck constitue un ensemble de carte.
+	Un deck est propre a chaque joueur.
+	Le deck est constitué depuis le site internet avant la partie.
+	      \item[Le quartier général : ]Chaque joueur commence avec un quartier général. Il fournit des ressources.
+	Un quartier général de peut pas changer de propriétaire .
+        
+      \end{description}
+    
+    
+    
+    
+    
+
 \chapter{Mise en œuvre}
-  \section{Logiciel et méthode utilisé}
+  \section{Logiciels et méthodes utilisés}
   \subsection{Organisation du projet}
      \begin{description}
        \item[Logiciel de gestion de versions :] nous avons utilisé \textit{git} et la plateforme \textit{GitHub} pour gérer le partage des fichiers et la gestion des versions. Nous avons utilisé ceci car, l'ayant appris en cours, tout les membres du projet étaient capable de l'utiliser.
@@ -133,7 +181,7 @@
 Le langage Java est utilisé pour le serveur et le client pour sa simplicité. En effet java permet un échange des données extrêmement simple grâce à la sérialisation de ses objets. De plus la création des connexions réseau se fait rapidement.
 En utilisant ce langage, la communication entre les programmes a donc pu être réalisée rapidement, permettant aux développeurs de se consacrer davantage sur les protocoles.
 
-\subsubsection{Bibliothèque utilisée}
+\subsubsection{Bibliothèques utilisée}
 Les bibliothèques utilisées pour le serveur sont :
 \begin{enumerate}
   \item GraphStream, pour la visualisation de l'état du serveur sous forme de graphe. Car cette librairie est très similaire à la librairie PHP que nous avons utilisée aux parts avant.
@@ -190,52 +238,87 @@ Pour pouvoir identifier rapidement les erreurs éventuelles dans les protocoles,
 
 \section{Rendu}
 \subsection{Les composants du projet}
-A ce jour, le projet comporte :
 
-	\subsubsection{Un site web permettant :}
-	
-	 - De créer un compte utilisateur
-		 
-	 - De créer et modifier son deck de carte pour le jouer en jeu.
-	 
-	 - De télécharger le jeu.
-	 \begin{figure}[th]
-	 \begin{center}
-	  \includegraphics[scale=0.2]{Assets/site.png} 
-	\caption{Page de création du deck}
-     \label{siteWeb}
-      \end{center}
-    \end{figure}
 
+
+	\subsection{Un site internet}
+
+	\paragraph{}
+        Data wars est un jeu qui utilise une base de données contenant les informations des utilisateurs ainsi que les cartes qui leur sont nécessaires. Pour accéder à ces données et les modifier, nous avons mis en place un site web réalisé en PHP afin d'y apporter un niveau de sécurité suffisant lors de sa modification. L'architecture du site est réalisé en Modèle-Vue-Contrôleur (MVC) ce qui améliore la facilité de maintenance du site, d’ailleurs pour la vue nous avons fait le choix d'en faire un site \textit{responsif} afin d'y accéder depuis n'importe quel appareil. 
+
+	\subsubsection{Partie administrateur} 
+	\paragraph{}
+
+    	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_admin.png}
+          \caption{Barre de navigation côté administrateur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+	 La première du site n'est accessible que par les administrateurs afin de pouvoir mettre à jour : 
+	\begin{enumerate}
+		\item les cartes
+		\item les joueurs
+		\item les effets
+	\end{enumerate}Il a donc été nécessaire d'y installer une sécurité afin que les données enregistrées soient correctes pour ainsi éviter que des conflits apparaissent. Pour cela nous utilisons un framework : Silex, qui offre donc des services pour mettre en place des contraintes qui doivent être respectées par l'utilisateur pour que les données saisies soient envoyées dans la base de données.
+
+
+
+	\subsubsection{Partie joueur}
+	\paragraph{}
+
+	\begin{figure}[th]
+      	 \begin{center}
+          \includegraphics[scale=0.25]{Assets/navbar_joueur.png}
+          \caption{Barre de navigation côté joueur}
+          \label{RepTravail}
+         \end{center}
+        \end{figure}
+
+      La seconde partie du site est donc accessible par les joueurs qui d'ailleurs devront créer leur compte sur le site. À partir d'ici il est nécessaire de respecter les contraintes du jeu : 
+
+	\begin{enumerate}
+		\item la taille du deck a une limite à ne pas dépasser
+		\item une carte n'est pas dans le deck ou l'est maximum une fois
+	\end{enumerate}Pour cela on empêche tout simplement l'ajout lorsque cette limite est atteinte à l'aide de requêtes SQL qui compte et compare les cartes du jeu avec celles présentes dans le deck.
 	
-	\subsubsection{Un système réseau avec interface réutilisable\\ sur d'autres 			projets :}
+	\paragraph{}
+	L'objectif principal a donc été de réaliser une vue qui soit agréable pour la construction des decks. Ainsi la modification se fait sur une seule page où le deck du joueur, les cartes du jeu, et une vue détaillée de la carte sélectionnée sont visibles. De cette manière le joueur peut donc naviguer entre les cartes de manière aisée. Toutefois lorsqu'une action est effectuée la page doit se recharger, on pourrait donc améliorer cette partie pour rendre la navigation plus fluide aux joueurs en y ajoutant du \textit{Javascript}.
+
+
+
+	\subsection{Un système réseau indépendant du modèle :}
 	
-	Il permet de créer un groupe, envoyer une invitation au membres connectés, ces derniers peuvent gérer les invitations reçus ( accepter ou non ) l'invitation est limitée dans le temps pour éviter d'attendre un joueur éternellement. Une fois le groupe créé l'hôte peut lancer la partie.   
+	Ce système réseaux, est à l'heure actuelle capable de s'adapter à n'importe quel modèle de jeux en tour par tour, le rendant ainsi totalement autonome. Il permet la création d'un groupe, qui a une capacité de 4 personnes, par une joueur nommé l’hôte. Celui-ci peut inviter jusqu'à trois autres joueurs via une interface (Figure~\ref{interface reseau}), qui recevront une invitation qu'ils devront accepter. Ces invitations, limitées dans le temps, évite l'attente éventuelle d'un joueur. Une fois que les joueurs sont tous dans le groupe, appelé \textit{<<lobby>>}, l'hôte peut lancer la partie. Le programme va alors lancer le jeu et laisser place à celui-ci. Le réseau ne sera désormais appelé seulement lors de la fin de tour des joueurs, où il se chargera de transmettre le modèle au autre joueurs.
 	
 	 \begin{figure}[th]
 	\begin{center}
-	\includegraphics[scale=0.5]{Assets/connection3.png} 
+	\includegraphics[scale=0.4]{Assets/connection3.png} 
 	\caption{Interface du module réseau}
      \label{interface reseau}
       \end{center}
     \end{figure}
 
+	\newpage
 	
-	\subsubsection{Un jeu jouable en Réseau de 2 à 4 joueurs.}
+	\subsection{Un jeu jouable en Réseau de 2 à 4 joueurs.}
 	
-	Dans le jeu on peut récupérer le deck en fonction du joueur\\
+	Lorsque la partie commence, chaque joueur se voit attribuer les cartes correspondantes à son choix sur le site web. Cinq lui sont distribuées dans leurs mains (Figure~\ref{cartesJoueur}) tandis que les autres sont misent de coté pour devenir la pioche, ou encore appelé le <<deck>>. 
 	 \begin{figure}[th]	
 	\begin{center}
-	\includegraphics[scale=0.3]{Assets/mainJoueur.png} 
+	\includegraphics[scale=0.4]{Assets/mainJoueur.png} 
 	\caption{main du joueur}
      \label{cartesJoueur}
       \end{center}
     \end{figure}
 
+
 	
-	 Jouer des cartes
-	
-	 Déplacer des unités
+	 Le joueurs commençant peut dès à présent jouer ces cartes selon sa quantité de ressource.une fois celle-ci joué, il peut voir apparaître l'unité ou l'effet du sort de la carte sélectionnée. Une fois son tour terminé, il peut le passer en appuyant sur le bouton <<fin de tour>>. C'est alors au tour des autres joueurs de jouer. Une fois un tour table complet effectué, le joueur pour déplacement l'unité qu'il avait créé le tour précèdent (Figure~\ref{MouvementUnité}). Cette unité pourra lui servir à en attaquer d'autres, ou encore à capturer des bâtiments de ressources (Figure~\ref{CaptureBatiment}) qui lui permettra de gagner plus de ressource.
+	 	
+	 
 	  \begin{figure}[th]
 	 \begin{center}
 	\includegraphics[scale=1]{Assets/UniteeSelectMove.png} 
@@ -245,9 +328,9 @@ A ce jour, le projet comporte :
     \end{figure}
 
 	 
-	Attaquer des unités ennemies
+
 	
-	Capturer des bâtiments de ressources
+
 	
 	 \begin{figure}[th]
 	\begin{center}
@@ -256,26 +339,9 @@ A ce jour, le projet comporte :
      \label{CaptureBatiment}
       \end{center}
     \end{figure}
-
 	
-	Voir les informations des entités sur la carte
-	 \begin{figure}[th]
-	\begin{center}
-	\includegraphics[scale=0.3]{Assets/infosCarte.png} 
-	\caption{Informations sur une unité}
-     \label{InfoUnité}
-      \end{center}
-    \end{figure}
-
+	 Plusieurs tours ce sont écoulés, notre joueur est sur le point de détruire le derniers QG adverse. Il va par conséquent gagner la partie. L'écran de jeu va se fermer et les joueurs seront redirigée vers la fenêtre de connexion du réseaux.
 	
-    La gestion des ressources est fonctionnelle
-	
-	 On peut attaquer le QG ennemi pour gagner la partie.
-	
- La partie de chaque joueur est synchronisée à chaque fin de tour d'un joueur.
-	
-	
-
 
   
   \chapter{Bilan}
@@ -284,5 +350,13 @@ A ce jour, le projet comporte :
       
     \section{Bilan technique}
        Nous avons à l'heure actuelle un programme fonctionnel malgré quelques failles notamment dû à un manque de rigueur dans la gestion des contrôleurs, mais également de quelques problèmes avec les effets. Certains de ceux-ci ne s'appliquent pas. Si notre programme reste viable dans le fond, la forme reste encore à améliorer. En effet, toutes les cartes n'ont pas encore d'images et l'interface générale du reste minime. Les points évoqués précédemment correspondent aux potentielles voix d'améliorations du projet.
+       
+ \chapter{Conclusions}
+ 	Nous avons rencontrés plusieurs types de difficultés lors de ce projet, principalement duent problèmes d’implémentation des règles. Nous avons réussi a surmonter ces problèmes notamment en réalisant une maquette papier sous les conseils de notre professeur-encadrante ainsi qu’en modifiant certaine règles pour les adapter a une version numérique du jeu.
+ 	
+	Malgré quelques tensions d’ordre humain, nous avons su nous reprendre spécifiquement grâce au cours sur la dynamique de groupe ainsi que ceux sur la gestion des conflits. 
+	
+	Le projet n’a pas atteint exactement la forme que nous souhaitions lui donner, et ce à cause d’un manque de temps évident qui s’est transformé en une démotivation pour certains membres du groupes. 
+	Pour conclure ce projet a été enrichissant pour nos connaissances car ils nous a permis de travailler plusieurs langages. Mais également d’avoir une expérience significative sur la gestion d’un projet et d’un groupe. 
 
 \end{document}
